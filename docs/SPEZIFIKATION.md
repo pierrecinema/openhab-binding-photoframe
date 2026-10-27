@@ -272,11 +272,11 @@ Geschätzter Aufwand: etwa 4–5 Arbeitstage.
 | Version | nach | Neu zum Testen |
 |---|---|---|
 | 0.0.1 | M2 | lokaler Ordner, Diashow im Vollbild, Übergänge, Nachtmodus, Steuerung |
-| 0.1.1 | – | Name „Photoframe“, nur funktionierende Optionen sichtbar (Dropbox-Bridge ausgeblendet) |
-| 0.1.2 | M3 | Google Drive (Link + API-Key) |
-| 0.1.3 | M4 | Dropbox-Link |
-| 0.1.4 | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
-| **0.2.0** | M6 | Widget, vollständige Anleitungen – erste Version für Beta-Tester |
+| 0.0.2 | – | Name „Photoframe“, nur funktionierende Optionen sichtbar (Dropbox-Bridge ausgeblendet) |
+| 0.0.3 | M3 | Google Drive (Link + API-Key) |
+| 0.0.4 | M4 | Dropbox-Link |
+| 0.0.5 | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
+| **0.1.0** | M6 | Widget, vollständige Anleitungen – erste Version für Beta-Tester |
 
 M1 (nur Gerüst) bekommt keine Test-Version, weil es darin noch nichts auszuprobieren gibt.
 
@@ -288,7 +288,7 @@ M1 (nur Gerüst) bekommt keine Test-Version, weil es darin noch nichts auszuprob
 |---|---|---|
 | 1 | Optionen | Standardwerte ok, **Nachtmodus** ergänzt (§6); weitere Optionen kann Pierrecinema noch nachreichen |
 | 2 | Zugriffstoken | **ja** |
-| 3 | Test-Versionen | **nach jedem Meilenstein**, Nummerierung ab 0.1.1 (§11) |
+| 3 | Test-Versionen | **nach jedem Meilenstein**, 0.0.x bis 0.1.0 (§11) |
 | 4 | Name | **„Photoframe Binding“**, Thing „Photoframe“ – in allen Sprachen |
 | 7 | Sichtbare Optionen | Nur funktionierende Quellen/Things werden angeboten; Dropbox-Bridge erst mit dem Dropbox-Login |
 | 5 | Release-Dateien | JAR + Widget-YAML + Anleitungen sichtbar im Release |

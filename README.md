@@ -12,7 +12,7 @@ Turns openHAB into a digital photo frame: pictures from a folder are shown as a 
 
 Requires **openHAB 5.0 or later**.
 
-> **Status:** test version 0.1.1 – local folder only. Google Drive and Dropbox follow in the next test versions.
+> **Status:** test version 0.0.2 – local folder only. Google Drive and Dropbox follow in the next test versions.
 > Specification (German): [docs/SPEZIFIKATION.md](docs/SPEZIFIKATION.md)
 
 ## Quick Start
