@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="photoframe"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<!-- Dropbox account (optional, for the DROPBOX source) -->
+	<bridge-type id="dropbox">
+		<label>Dropbox Account</label>
+		<description>Login to Dropbox. The binding only sees its own app folder in your Dropbox.</description>
+		<semantic-equipment-tag>WebService</semantic-equipment-tag>
+
+		<config-description>
+			<parameter name="appKey" type="text" required="true">
+				<label>App Key</label>
+				<description>App key of your own Dropbox app (Scoped access, App folder).</description>
+			</parameter>
+			<parameter name="authCode" type="text">
+				<label>Authorization Code</label>
+				<description>Code shown by Dropbox after you allowed access. It is cleared after a successful login.</description>
+			</parameter>
+		</config-description>
+	</bridge-type>
+
+	<!-- Photo frame -->
+	<thing-type id="frame">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="dropbox"/>
+		</supported-bridge-type-refs>
+
+		<label>Photo Frame</label>
+		<description>A slideshow of the pictures in one folder, shown on a web page that can be used as tablet screensaver.</description>
+		<semantic-equipment-tag>Screen</semantic-equipment-tag>
+
+		<channels>
+			<channel id="control" typeId="control"/>
+			<channel id="currentImage" typeId="currentImage"/>
+			<channel id="imageCount" typeId="imageCount"/>
+			<channel id="pageUrl" typeId="pageUrl"/>
+			<channel id="lastRefresh" typeId="lastRefresh"/>
+			<channel id="refresh" typeId="refresh"/>
+			<channel id="night" typeId="night"/>
+		</channels>
+
+		<config-description>
+			<parameter-group name="source">
+				<label>Source</label>
+			</parameter-group>
+			<parameter-group name="slideshow">
+				<label>Slideshow</label>
+			</parameter-group>
+			<parameter-group name="overlay">
+				<label>Overlays</label>
+			</parameter-group>
+			<parameter-group name="night">
+				<label>Night Mode</label>
+			</parameter-group>
+
+			<parameter name="sourceType" type="text" required="true" groupName="source">
+				<label>Source Type</label>
+				<options>
+					<option value="LOCAL">Local folder</option>
+					<option value="GOOGLE_DRIVE">Google Drive shared folder</option>
+					<option value="DROPBOX_LINK">Dropbox shared folder link</option>
+					<option value="DROPBOX">Dropbox account (needs the Dropbox bridge)</option>
+				</options>
+				<limitToOptions>true</limitToOptions>
+				<default>LOCAL</default>
+			</parameter>
+			<parameter name="localFolder" type="text" groupName="source">
+				<label>Local Folder</label>
+				<description>Folder with the pictures. Empty creates userdata/photoframe/&lt;thing id&gt;.</description>
+			</parameter>
+			<parameter name="link" type="text" groupName="source">
+				<label>Shared Link</label>
+				<description>Shared folder link for Google Drive or Dropbox.</description>
+			</parameter>
+			<parameter name="apiKey" type="text" groupName="source">
+				<context>password</context>
+				<label>Google API Key</label>
+				<description>API key of your Google Cloud project, needed for Google Drive.</description>
+			</parameter>
+			<parameter name="folder" type="text" groupName="source">
+				<label>Dropbox Folder</label>
+				<description>Sub folder in the Dropbox app folder. Empty uses the app folder itself.</description>
+			</parameter>
+			<parameter name="refreshMinutes" type="integer" min="0" unit="min" groupName="source">
+				<label>Refresh Interval</label>
+				<description>Minutes between reading the folder again. 0 uses the default of the source.</description>
+				<default>0</default>
+				<advanced>true</advanced>
+			</parameter>
+
+			<parameter name="interval" type="integer" min="5" max="3600" unit="s" groupName="slideshow">
+				<label>Display Time</label>
+				<description>Seconds each picture is shown.</description>
+				<default>30</default>
+			</parameter>
+			<parameter name="order" type="text" groupName="slideshow">
+				<label>Order</label>
+				<options>
+					<option value="RANDOM">Random</option>
+					<option value="NAME">By file name</option>
+				</options>
+				<limitToOptions>true</limitToOptions>
+				<default>RANDOM</default>
+			</parameter>
+			<parameter name="transition" type="text" groupName="slideshow">
+				<label>Transition</label>
+				<options>
+					<option value="FADE">Fade</option>
+					<option value="SLIDE">Slide</option>
+					<option value="WIPE">Wipe</option>
+					<option value="ZOOM">Zoom</option>
+					<option value="RANDOM">Random</option>
+					<option value="NONE">None</option>
+				</options>
+				<limitToOptions>true</limitToOptions>
+				<default>FADE</default>
+			</parameter>
+			<parameter name="transitionSeconds" type="decimal" min="0.5" max="5" step="0.5" unit="s"
+				groupName="slideshow">
+				<label>Transition Duration</label>
+				<default>1.5</default>
+			</parameter>
+			<parameter name="kenBurns" type="boolean" groupName="slideshow">
+				<label>Ken Burns Effect</label>
+				<description>Slowly zoom and pan while a picture is shown.</description>
+				<default>true</default>
+			</parameter>
+			<parameter name="fitMode" type="text" groupName="slideshow">
+				<label>Fit Mode</label>
+				<description>How pictures with a different aspect ratio than the screen are shown.</description>
+				<options>
+					<option value="BLUR">Fit with blurred background</option>
+					<option value="FIT">Fit with black borders</option>
+					<option value="FILL">Fill screen (crop)</option>
+					<option value="AUTO">Automatic</option>
+				</options>
+				<limitToOptions>true</limitToOptions>
+				<default>BLUR</default>
+			</parameter>
+			<parameter name="maxSize" type="integer" min="640" max="4096" groupName="slideshow">
+				<label>Maximum Picture Size</label>
+				<description>Longest side of the pictures sent to the screen.</description>
+				<default>1920</default>
+				<advanced>true</advanced>
+			</parameter>
+			<parameter name="tapUrl" type="text" groupName="slideshow">
+				<context>url</context>
+				<label>Tap Address</label>
+				<description>Address opened when the slideshow is tapped. Empty switches to full screen.</description>
+				<advanced>true</advanced>
+			</parameter>
+			<parameter name="cacheSizeMb" type="integer" min="50" groupName="slideshow">
+				<label>Cache Size</label>
+				<default>500</default>
+				<advanced>true</advanced>
+			</parameter>
+
+			<parameter name="clock" type="text" groupName="overlay">
+				<label>Clock</label>
+				<options>
+					<option value="NONE">None</option>
+					<option value="TIME">Time</option>
+					<option value="TIME_DATE">Time and date</option>
+				</options>
+				<limitToOptions>true</limitToOptions>
+				<default>NONE</default>
+			</parameter>
+			<parameter name="overlayItems" type="text" groupName="overlay">
+				<label>Overlay Items</label>
+				<description>Up to 4 item names, separated by commas, whose values are shown on the pictures.</description>
+			</parameter>
+			<parameter name="caption" type="text" groupName="overlay">
+				<label>Caption</label>
+				<options>
+					<option value="NONE">None</option>
+					<option value="FILENAME">File name</option>
+				</options>
+				<limitToOptions>true</limitToOptions>
+				<default>NONE</default>
+			</parameter>
+
+			<parameter name="nightMode" type="text" groupName="night">
+				<label>Night Mode</label>
+				<options>
+					<option value="OFF">Off</option>
+					<option value="BLACK">Black screen</option>
+					<option value="DIM">Dimmed pictures</option>
+					<option value="CLOCK">Black screen with dimmed clock</option>
+				</options>
+				<limitToOptions>true</limitToOptions>
+				<default>OFF</default>
+			</parameter>
+			<parameter name="nightStart" type="text" pattern="^([01]?[0-9]|2[0-3]):[0-5][0-9]$" groupName="night">
+				<label>Night Start</label>
+				<description>Time in HH:mm.</description>
+				<default>22:00</default>
+			</parameter>
+			<parameter name="nightEnd" type="text" pattern="^([01]?[0-9]|2[0-3]):[0-5][0-9]$" groupName="night">
+				<label>Night End</label>
+				<description>Time in HH:mm.</description>
+				<default>06:30</default>
+			</parameter>
+		</config-description>
+	</thing-type>
+
+	<channel-type id="control">
+		<item-type>Player</item-type>
+		<label>Control</label>
+		<description>Play, pause, next and previous picture</description>
+		<tags>
+			<tag>Control</tag>
+		</tags>
+	</channel-type>
+
+	<channel-type id="currentImage">
+		<item-type>String</item-type>
+		<label>Current Picture</label>
+		<description>File name of the picture currently shown</description>
+		<state readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="imageCount">
+		<item-type>Number</item-type>
+		<label>Pictures</label>
+		<description>Number of pictures in the folder</description>
+		<state readOnly="true" pattern="%d"/>
+	</channel-type>
+
+	<channel-type id="pageUrl">
+		<item-type>String</item-type>
+		<label>Slideshow Address</label>
+		<description>Address of the slideshow page, for a browser or as screensaver address in a kiosk app</description>
+		<state readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="lastRefresh" advanced="true">
+		<item-type>DateTime</item-type>
+		<label>Last Refresh</label>
+		<description>Time the folder was read successfully</description>
+		<tags>
+			<tag>Status</tag>
+			<tag>Timestamp</tag>
+		</tags>
+		<state readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="refresh" advanced="true">
+		<item-type>Switch</item-type>
+		<label>Refresh Now</label>
+		<description>ON reads the folder again now</description>
+	</channel-type>
+
+	<channel-type id="night">
+		<item-type>Switch</item-type>
+		<label>Night Mode Active</label>
+		<description>Shows whether the night mode is active; a command forces it until the next start or end time</description>
+	</channel-type>
+
+</thing:thing-descriptions>
