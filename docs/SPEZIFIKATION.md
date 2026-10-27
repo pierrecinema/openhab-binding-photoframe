@@ -47,7 +47,7 @@ Gleich wie beim Google Drive Binding:
 | Code | EPL-2.0-Header, `@NonNullByDefault`, Spotless, SAT ohne Fehler |
 | Abhängigkeiten | **keine Fremdbibliotheken**: Jetty-HttpClient, Gson, `OAuthFactory`, Java-ImageIO aus dem JDK |
 | Tests | JUnit für Link-Parsing, Sortierung, EXIF-Ausrichtung, API-Antworten |
-| Releases | GitHub-Release mit JAR bei jedem Versions-Tag (Workflow wie beim Google Drive Binding) |
+| Releases | GitHub-Release bei jedem Versions-Tag (Workflow wie beim Google Drive Binding). Als Dateien sichtbar im Release: **JAR**, **Widget-YAML(s)**, **Anleitungen** (README.md und deutsche Anleitung); GitHub hängt den Quellcode (zip/tar.gz) automatisch an |
 | Commits | DCO-Sign-off, anonyme GitHub-Adresse |
 
 ---
@@ -154,6 +154,17 @@ Bridge `photoframe:dropbox`.
 
 Die Einblendungen liegen auf einem halbtransparenten Verlauf, damit sie auf hellen und dunklen Bildern lesbar sind.
 
+### Nachtmodus
+Damit das Tablet nachts nicht das Wohnzimmer erhellt.
+
+| Option | Werte |
+|---|---|
+| `nightMode` | `OFF` (Standard), `BLACK` (schwarzer Bildschirm), `DIM` (Bilder stark abgedunkelt), `CLOCK` (schwarz mit gedimmter Uhr) |
+| `nightStart` / `nightEnd` | Uhrzeit, z. B. `22:00` / `06:30` (über Mitternacht möglich) |
+| Channel `night` | `Switch`: zeigt an, ob gerade Nacht ist; ein Befehl `ON`/`OFF` erzwingt den Nachtmodus bis zur nächsten Zeitgrenze – z. B. per Rule „Licht im Wohnzimmer aus → Nacht“ |
+
+Im Nachtmodus wechseln keine Bilder und es wird nichts geladen. Tippen auf den Bildschirm zeigt für 30 s wieder Bilder. Hinweis: Den Bildschirm wirklich abschalten kann nur die Kiosk-App (Fully Kiosk: „Screen off“ zu Zeiten) – das steht in der Anleitung.
+
 ### Übergänge
 | Option | Werte |
 |---|---|
@@ -182,6 +193,9 @@ Die Einblendungen liegen auf einem halbtransparenten Verlauf, damit sie auf hell
 | `clock` | Auswahl `NONE` / `TIME` / `TIME_DATE` | `NONE` | Uhrzeit/Datum einblenden |
 | `overlayItems` | Text | leer | bis zu 4 Item-Namen, kommagetrennt, deren Werte eingeblendet werden |
 | `caption` | Auswahl `NONE` / `FILENAME` | `NONE` | Bildunterschrift |
+| `nightMode` | Auswahl `OFF` / `BLACK` / `DIM` / `CLOCK` | `OFF` | Nachtmodus (§6) |
+| `nightStart` | Text `HH:mm` | `22:00` | Beginn Nachtmodus |
+| `nightEnd` | Text `HH:mm` | `06:30` | Ende Nachtmodus |
 | `maxSize` | Zahl (px) | 1920 | längste Bildkante (erweitert) |
 | `refreshMinutes` | Zahl (min) | 5 lokal / 15 Google / 60 Dropbox-Link / 15 Dropbox | Ordner neu einlesen (erweitert) |
 | `tapUrl` | Text | leer | Adresse, die beim Tippen geöffnet wird (erweitert) |
@@ -196,6 +210,7 @@ Die Einblendungen liegen auf einem halbtransparenten Verlauf, damit sie auf hell
 | `pageUrl` | `String` | Adresse der Diashow-Seite inkl. Token |
 | `lastRefresh` | `DateTime` | letztes erfolgreiches Einlesen des Ordners |
 | `refresh` | `Switch` | `ON` liest den Ordner sofort neu ein |
+| `night` | `Switch` | Nachtmodus aktiv; Befehl erzwingt ihn bis zur nächsten Zeitgrenze |
 
 ### 7.3 Aktionen
 - `next()`, `previous()`, `pause()`, `play()`
