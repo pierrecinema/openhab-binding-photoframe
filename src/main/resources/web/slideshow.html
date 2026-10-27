@@ -10,9 +10,9 @@
   html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
   body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #fff; user-select: none; -webkit-user-select: none; }
   body.idle { cursor: none; }
-  .slide { position: absolute; inset: 0; overflow: hidden; opacity: 0; will-change: opacity, transform, clip-path; }
+  .slide { position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; opacity: 0; will-change: opacity, transform, clip-path; }
   .slide.visible { opacity: 1; }
-  .slide img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .slide img { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; }
   .slide .bg { object-fit: cover; filter: blur(32px) brightness(0.55); transform: scale(1.15); }
   .slide .fg { object-fit: contain; transform-origin: 50% 50%; }
   .slide.fit-fill .fg { object-fit: cover; }
@@ -25,19 +25,19 @@
   #overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: 48px 4vw 3vh; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
              background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0)); pointer-events: none; text-shadow: 0 1px 4px rgba(0,0,0,0.7); }
   #overlay.empty { display: none; }
-  #caption { font-size: clamp(16px, 2.6vw, 34px); font-weight: 500; }
+  #caption { font-size: 2.6vw; font-size: clamp(16px, 2.6vw, 34px); font-weight: 500; }
   #info { text-align: right; }
-  #clock { font-size: clamp(28px, 6vw, 80px); font-weight: 300; line-height: 1; }
-  #date { font-size: clamp(14px, 1.8vw, 24px); opacity: 0.9; margin-top: 6px; }
-  #items { font-size: clamp(14px, 1.9vw, 26px); margin-top: 8px; }
+  #clock { font-size: 6vw; font-size: clamp(28px, 6vw, 80px); font-weight: 300; line-height: 1; }
+  #date { font-size: 1.8vw; font-size: clamp(14px, 1.8vw, 24px); opacity: 0.9; margin-top: 6px; }
+  #items { font-size: 1.9vw; font-size: clamp(14px, 1.9vw, 26px); margin-top: 8px; }
   #items span { margin-left: 1.2em; white-space: nowrap; }
   #items small { opacity: 0.75; margin-right: 0.35em; }
-  #night { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity 2s; display: flex; align-items: center; justify-content: center; }
+  #night { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity 2s; display: flex; align-items: center; justify-content: center; }
   #night.on { opacity: 1; }
   #night.dim { background: rgba(0,0,0,0.85); }
-  #nightClock { font-size: clamp(48px, 14vw, 200px); font-weight: 200; color: #fff; opacity: 0.28; display: none; }
+  #nightClock { font-size: 14vw; font-size: clamp(48px, 14vw, 200px); font-weight: 200; color: #fff; opacity: 0.28; display: none; }
   #night.clock #nightClock { display: block; }
-  #message { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; text-align: center; padding: 8vw; font-size: clamp(18px, 3vw, 36px); line-height: 1.4; }
+  #message { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: none; align-items: center; justify-content: center; text-align: center; padding: 8vw; font-size: 3vw; font-size: clamp(18px, 3vw, 36px); line-height: 1.4; }
   #message.on { display: flex; }
   #message small { display: block; font-size: 0.55em; opacity: 0.7; margin-top: 12px; word-break: break-all; }
   #status { position: absolute; top: 12px; right: 14px; width: 10px; height: 10px; border-radius: 50%; background: #ff9500; display: none; }
@@ -57,6 +57,7 @@
 <div id="night"><div id="nightClock"></div></div>
 <div id="paused">&#10074;&#10074;</div>
 <div id="status" title="No connection to openHAB"></div>
+<div id="error" style="display:none; position:absolute; left:8px; right:8px; top:8px; z-index:40; padding:8px; font-size:13px; color:#ff8a80; background:rgba(0,0,0,0.7); border-radius:6px; word-break:break-all;"></div>
 <script>
 (function () {
   'use strict';
@@ -83,20 +84,39 @@
   function imageUrl(key) { return 'image/' + key + '.jpg' + query; }
 
   // --- state polling ---------------------------------------------------------------------------------------
+  // XMLHttpRequest instead of fetch: works in every Android web view
   function poll() {
-    fetch('state' + query, { cache: 'no-store' }).then(function (r) {
-      if (!r.ok) { throw new Error('HTTP ' + r.status); }
-      return r.json();
-    }).then(function (s) {
-      state = s;
-      $('status').classList.remove('on');
-      apply();
-    }).catch(function () {
-      $('status').classList.add('on');
-    }).then(function () {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'state' + query + '&t=' + Date.now(), true);
+    xhr.timeout = 10000;
+    xhr.onload = function () {
+      try {
+        if (xhr.status !== 200) { throw new Error('HTTP ' + xhr.status); }
+        state = JSON.parse(xhr.responseText);
+        $('status').classList.remove('on');
+        apply();
+      } catch (e) {
+        $('status').classList.add('on');
+        if (!(e instanceof SyntaxError) && String(e.message).indexOf('HTTP') !== 0) { showError(e); }
+      }
       setTimeout(poll, 1000);
-    });
+    };
+    xhr.onerror = xhr.ontimeout = function () {
+      $('status').classList.add('on');
+      setTimeout(poll, 2000);
+    };
+    xhr.send();
   }
+
+  // Shows script errors on the screen instead of a silent black page
+  function showError(e) {
+    var el = $('error');
+    el.textContent = 'Photoframe: ' + (e && e.message ? e.message : e) + ' – ' + navigator.userAgent;
+    el.style.display = 'block';
+  }
+  window.onerror = function (message, source, line) {
+    showError(message + (line ? ' (line ' + line + ')' : ''));
+  };
 
   function apply() {
     var s = state;
@@ -185,9 +205,19 @@
 
   function resetStyle(el) {
     el.style.transition = 'none';
+    el.style.webkitTransition = 'none';
     el.style.opacity = '';
     el.style.transform = '';
+    el.style.webkitTransform = '';
     el.style.clipPath = '';
+    el.style.webkitClipPath = '';
+  }
+
+  // Sets a style, including the -webkit- variant needed by older Android web views
+  function setStyle(el, key, value) {
+    el.style[key] = value;
+    if (key === 'clipPath') { el.style.webkitClipPath = value; }
+    if (key === 'transform') { el.style.webkitTransform = value; }
   }
 
   // Uses CSS transitions, and sets the final state with a timer. The timer makes sure the new picture is
@@ -207,14 +237,16 @@
     var start = TRANSITION_START[type];
     if (duration <= 0 || !start) { finish(); return; }
 
-    Object.keys(start).forEach(function (k) { next.style[k] = start[k]; });
+    Object.keys(start).forEach(function (k) { setStyle(next, k, start[k]); });
     void next.offsetWidth; // apply the start state before the transition begins
     var timing = duration + 'ms ease-in-out';
     next.style.transition = 'opacity ' + timing + ', transform ' + timing + ', clip-path ' + timing;
-    Object.keys(start).forEach(function (k) { next.style[k] = TRANSITION_END[k]; });
+    next.style.webkitTransition = 'opacity ' + timing + ', -webkit-transform ' + timing + ', -webkit-clip-path ' + timing;
+    Object.keys(start).forEach(function (k) { setStyle(next, k, TRANSITION_END[k]); });
     if (type === 'SLIDE') {
       prev.style.transition = 'transform ' + timing;
-      prev.style.transform = 'translateX(-100%)';
+      prev.style.webkitTransition = '-webkit-transform ' + timing;
+      setStyle(prev, 'transform', 'translateX(-100%)');
     }
     setTimeout(finish, duration + 60);
   }
@@ -294,11 +326,14 @@
     var tapUrl = state && state.settings.tapUrl;
     if (tapUrl) { location.href = tapUrl; return; }
     var d = document;
+    // Older web views return no Promise here
+    var result = null;
     if (!d.fullscreenElement && d.documentElement.requestFullscreen) {
-      d.documentElement.requestFullscreen().catch(function () {});
+      result = d.documentElement.requestFullscreen();
     } else if (d.exitFullscreen) {
-      d.exitFullscreen().catch(function () {});
+      result = d.exitFullscreen();
     }
+    if (result && result.catch) { result.catch(function () {}); }
   });
 
   var wakeLock = null;
