@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Photo Frame</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #fff; user-select: none; -webkit-user-select: none; }
+  body.idle { cursor: none; }
+  .slide { position: absolute; inset: 0; overflow: hidden; opacity: 0; will-change: opacity, transform, clip-path; }
+  .slide.visible { opacity: 1; }
+  .slide img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .slide .bg { object-fit: cover; filter: blur(32px) brightness(0.55); transform: scale(1.15); }
+  .slide .fg { object-fit: contain; transform-origin: 50% 50%; }
+  .slide.fit-fill .fg { object-fit: cover; }
+  .slide.fit-fit .bg, .slide.fit-fill .bg { display: none; }
+  /* Layers: pictures 1–2, overlays 10, message 11, night 20, indicators 30 */
+  #overlay { z-index: 10; }
+  #message { z-index: 11; }
+  #night { z-index: 20; }
+  #status, #paused { z-index: 30; }
+  #overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: 48px 4vw 3vh; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+             background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0)); pointer-events: none; text-shadow: 0 1px 4px rgba(0,0,0,0.7); }
+  #overlay.empty { display: none; }
+  #caption { font-size: clamp(16px, 2.6vw, 34px); font-weight: 500; }
+  #info { text-align: right; }
+  #clock { font-size: clamp(28px, 6vw, 80px); font-weight: 300; line-height: 1; }
+  #date { font-size: clamp(14px, 1.8vw, 24px); opacity: 0.9; margin-top: 6px; }
+  #items { font-size: clamp(14px, 1.9vw, 26px); margin-top: 8px; }
+  #items span { margin-left: 1.2em; white-space: nowrap; }
+  #items small { opacity: 0.75; margin-right: 0.35em; }
+  #night { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity 2s; display: flex; align-items: center; justify-content: center; }
+  #night.on { opacity: 1; }
+  #night.dim { background: rgba(0,0,0,0.85); }
+  #nightClock { font-size: clamp(48px, 14vw, 200px); font-weight: 200; color: #fff; opacity: 0.28; display: none; }
+  #night.clock #nightClock { display: block; }
+  #message { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; text-align: center; padding: 8vw; font-size: clamp(18px, 3vw, 36px); line-height: 1.4; }
+  #message.on { display: flex; }
+  #message small { display: block; font-size: 0.55em; opacity: 0.7; margin-top: 12px; word-break: break-all; }
+  #status { position: absolute; top: 12px; right: 14px; width: 10px; height: 10px; border-radius: 50%; background: #ff9500; display: none; }
+  #status.on { display: block; }
+  #paused { position: absolute; top: 12px; left: 14px; font-size: 22px; opacity: 0.6; display: none; }
+  #paused.on { display: block; }
+</style>
+</head>
+<body>
+<div class="slide" id="slideA"><img class="bg" alt=""><img class="fg" alt=""></div>
+<div class="slide" id="slideB"><img class="bg" alt=""><img class="fg" alt=""></div>
+<div id="overlay" class="empty">
+  <div id="caption"></div>
+  <div id="info"><div id="clock"></div><div id="date"></div><div id="items"></div></div>
+</div>
+<div id="message"></div>
+<div id="night"><div id="nightClock"></div></div>
+<div id="paused">&#10074;&#10074;</div>
+<div id="status" title="No connection to openHAB"></div>
+<script>
+(function () {
+  'use strict';
+  var de = (navigator.language || 'en').toLowerCase().indexOf('de') === 0;
+  var T = de ? {
+    empty: 'Keine Bilder im Ordner', emptyHint: 'Lege Bilder in diesen Ordner:', loading: 'Bilder werden geladen …',
+    offline: 'Keine Verbindung zu openHAB'
+  } : {
+    empty: 'No pictures in the folder', emptyHint: 'Put pictures into this folder:', loading: 'Loading pictures …',
+    offline: 'No connection to openHAB'
+  };
+  var query = location.search;
+  var slides = [document.getElementById('slideA'), document.getElementById('slideB')];
+  var active = 0;
+  var state = null;
+  var shownKey = null;
+  var shownSeq = -1;
+  var loadingKey = null;
+  var wakeUntil = 0;
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var transitions = ['FADE', 'SLIDE', 'WIPE', 'ZOOM'];
+
+  function $(id) { return document.getElementById(id); }
+  function imageUrl(key) { return 'image/' + key + '.jpg' + query; }
+
+  // --- state polling ---------------------------------------------------------------------------------------
+  function poll() {
+    fetch('state' + query, { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) { throw new Error('HTTP ' + r.status); }
+      return r.json();
+    }).then(function (s) {
+      state = s;
+      $('status').classList.remove('on');
+      apply();
+    }).catch(function () {
+      $('status').classList.add('on');
+    }).then(function () {
+      setTimeout(poll, 1000);
+    });
+  }
+
+  function apply() {
+    var s = state;
+    $('paused').classList.toggle('on', !!s.paused);
+    updateNight();
+    updateOverlay();
+    if (!s.image) {
+      showMessage(s.count === 0 ? T.empty : T.loading, s.count === 0 ? s.folder : null);
+      return;
+    }
+    hideMessage();
+    if (s.image.key !== shownKey || s.seq !== shownSeq) {
+      show(s.image, s.seq);
+    }
+    if (s.upcoming) { preload(s.upcoming.key); }
+  }
+
+  // --- pictures and transitions ----------------------------------------------------------------------------
+  var preloaded = {};
+  function preload(key) {
+    if (preloaded[key]) { return; }
+    var img = new Image();
+    img.src = imageUrl(key);
+    preloaded = {};
+    preloaded[key] = img;
+  }
+
+  function show(image, seq) {
+    if (loadingKey === image.key) { return; }
+    loadingKey = image.key;
+    var probe = new Image();
+    probe.onload = function () {
+      loadingKey = null;
+      if (!state || !state.image || state.image.key !== image.key) { return; }
+      swap(image, seq, probe.naturalWidth / probe.naturalHeight);
+    };
+    probe.onerror = function () { loadingKey = null; };
+    probe.src = imageUrl(image.key);
+  }
+
+  function fitClass(ratio) {
+    var mode = state.settings.fitMode;
+    if (mode === 'AUTO') {
+      var screen = window.innerWidth / window.innerHeight;
+      mode = Math.abs(ratio - screen) / screen < 0.15 ? 'FILL' : 'BLUR';
+    }
+    return 'fit-' + mode.toLowerCase();
+  }
+
+  function swap(image, seq, ratio) {
+    var settings = state.settings;
+    var next = slides[1 - active];
+    var prev = slides[active];
+    var url = imageUrl(image.key);
+    next.className = 'slide ' + fitClass(ratio);
+    next.querySelector('.bg').src = url;
+    var fg = next.querySelector('.fg');
+    fg.src = url;
+    next.style.zIndex = 2;
+    prev.style.zIndex = 1;
+
+    var first = shownKey === null;
+    var type = settings.transition;
+    if (type === 'RANDOM') { type = transitions[Math.floor(Math.random() * transitions.length)]; }
+    var duration = first || type === 'NONE' ? 0 : settings.transitionSeconds * 1000;
+    animateIn(next, prev, type, duration, function () {
+      // The caption changes when the new picture is fully visible
+      $('caption').textContent = image.caption || '';
+    });
+    kenBurns(fg, settings, duration);
+
+    shownKey = image.key;
+    shownSeq = seq;
+    active = 1 - active;
+  }
+
+  function animateIn(next, prev, type, duration, done) {
+    next.getAnimations && next.getAnimations().forEach(function (a) { a.cancel(); });
+    var frames;
+    var prevFrames = null;
+    if (type === 'SLIDE') {
+      frames = [{ opacity: 1, transform: 'translateX(100%)' }, { opacity: 1, transform: 'translateX(0)' }];
+      prevFrames = [{ transform: 'translateX(0)' }, { transform: 'translateX(-100%)' }];
+    } else if (type === 'WIPE') {
+      frames = [{ opacity: 1, clipPath: 'inset(0 100% 0 0)' }, { opacity: 1, clipPath: 'inset(0 0 0 0)' }];
+    } else if (type === 'ZOOM') {
+      frames = [{ opacity: 0, transform: 'scale(1.18)' }, { opacity: 1, transform: 'scale(1)' }];
+    } else {
+      frames = [{ opacity: 0 }, { opacity: 1 }];
+    }
+    var finish = function () {
+      next.classList.add('visible');
+      next.style.transform = '';
+      next.style.clipPath = '';
+      prev.classList.remove('visible');
+      prev.style.transform = '';
+      done();
+    };
+    if (duration <= 0 || !next.animate) { finish(); return; }
+    var anim = next.animate(frames, { duration: duration, easing: 'ease-in-out', fill: 'forwards' });
+    if (prevFrames && prev.animate) {
+      prev.animate(prevFrames, { duration: duration, easing: 'ease-in-out', fill: 'forwards' });
+    }
+    anim.onfinish = function () {
+      finish();
+      anim.cancel();
+      prev.getAnimations && prev.getAnimations().forEach(function (a) { a.cancel(); });
+    };
+  }
+
+  function kenBurns(fg, settings, transitionMs) {
+    fg.getAnimations && fg.getAnimations().forEach(function (a) { a.cancel(); });
+    if (!settings.kenBurns || reducedMotion || !fg.animate) { return; }
+    var r = function () { return (Math.random() * 2 - 1) * 3; };
+    var zoomIn = Math.random() < 0.5;
+    var from = 'scale(' + (zoomIn ? 1.0 : 1.12) + ') translate(' + r() + '%, ' + r() + '%)';
+    var to = 'scale(' + (zoomIn ? 1.12 : 1.0) + ') translate(' + r() + '%, ' + r() + '%)';
+    fg.animate([{ transform: from }, { transform: to }],
+      { duration: settings.interval * 1000 + transitionMs + 2000, easing: 'linear', fill: 'forwards' });
+  }
+
+  // --- overlays --------------------------------------------------------------------------------------------
+  function updateOverlay() {
+    var s = state.settings;
+    var items = state.overlay || [];
+    var box = $('items');
+    box.textContent = '';
+    items.forEach(function (it) {
+      var span = document.createElement('span');
+      if (it.label) { var l = document.createElement('small'); l.textContent = it.label; span.appendChild(l); }
+      span.appendChild(document.createTextNode(it.value));
+      box.appendChild(span);
+    });
+    var hasCaption = !!(state.image && state.image.caption);
+    $('overlay').classList.toggle('empty', s.clock === 'NONE' && items.length === 0 && !hasCaption);
+    tickClock();
+  }
+
+  function tickClock() {
+    if (!state) { return; }
+    var now = new Date();
+    var time = now.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
+    var mode = state.settings.clock;
+    $('clock').textContent = mode === 'NONE' ? '' : time;
+    $('date').textContent = mode === 'TIME_DATE'
+      ? now.toLocaleDateString(navigator.language, { weekday: 'long', day: 'numeric', month: 'long' }) : '';
+    $('nightClock').textContent = time;
+  }
+  setInterval(tickClock, 1000);
+
+  function updateNight() {
+    var mode = state.settings.nightMode;
+    var on = !!state.night && Date.now() > wakeUntil;
+    var el = $('night');
+    el.classList.toggle('on', on);
+    el.classList.toggle('dim', mode === 'DIM');
+    el.classList.toggle('clock', mode === 'CLOCK');
+  }
+
+  // --- messages --------------------------------------------------------------------------------------------
+  function showMessage(text, detail) {
+    var el = $('message');
+    el.textContent = '';
+    var div = document.createElement('div');
+    div.textContent = text;
+    if (detail) {
+      var small = document.createElement('small');
+      small.textContent = T.emptyHint + ' ' + detail;
+      div.appendChild(small);
+    }
+    el.appendChild(div);
+    el.classList.add('on');
+  }
+  function hideMessage() { $('message').classList.remove('on'); }
+
+  // --- tap, full screen, wake lock, cursor -----------------------------------------------------------------
+  document.addEventListener('click', function () {
+    if (state && state.night && Date.now() > wakeUntil) {
+      wakeUntil = Date.now() + 30000;
+      updateNight();
+      return;
+    }
+    var tapUrl = state && state.settings.tapUrl;
+    if (tapUrl) { location.href = tapUrl; return; }
+    var d = document;
+    if (!d.fullscreenElement && d.documentElement.requestFullscreen) {
+      d.documentElement.requestFullscreen().catch(function () {});
+    } else if (d.exitFullscreen) {
+      d.exitFullscreen().catch(function () {});
+    }
+  });
+
+  var wakeLock = null;
+  function requestWakeLock() {
+    if (!('wakeLock' in navigator) || document.visibilityState !== 'visible') { return; }
+    navigator.wakeLock.request('screen').then(function (l) { wakeLock = l; }).catch(function () {});
+  }
+  document.addEventListener('visibilitychange', requestWakeLock);
+  requestWakeLock();
+
+  var idleTimer = null;
+  document.addEventListener('mousemove', function () {
+    document.body.classList.remove('idle');
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function () { document.body.classList.add('idle'); }, 3000);
+  });
+  document.body.classList.add('idle');
+  $('status').title = T.offline;
+
+  poll();
+})();
+</script>
+</body>
+</html>

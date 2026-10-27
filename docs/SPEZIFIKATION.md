@@ -20,6 +20,8 @@ Ein Binding, das openHAB zu einem **digitalen Bilderrahmen** macht:
 - Das Binding liefert eine **eigene Diashow-Seite** (Vollbild, Übergänge, Ken-Burns-Effekt), die auf jedem Tablet läuft und sich als **Bildschirmschoner** in Kiosk-Apps (Fully Kiosk Browser, WallPanel) eintragen lässt.
 - Die Diashow ist aus openHAB **steuerbar** (Pause, weiter, zurück) und es gibt ein **Dashboard-Widget**.
 
+**Grundsatz: Alles im Binding.** Auf dem openHAB-Server muss nichts zusätzlich installiert werden – keine Skripte, kein ImageMagick, keine Cron-Jobs, keine Web-Server. Bildverarbeitung (Java ImageIO), Diashow-Seite (HTML/JS im JAR), Cache und Ordner-Anlage erledigt das Binding selbst. Auf dem Tablet reicht ein Browser; eine Kiosk-App ist nur nötig, wenn die Diashow automatisch als Bildschirmschoner starten soll.
+
 **Grundsatz: Ein Ordner = ein Bilderrahmen.** Der Nutzer legt einen Ordner an, legt Bilder hinein, verbindet ihn – fertig. Neue Bilder erscheinen automatisch, gelöschte verschwinden.
 
 ### Nicht-Ziele in 0.1

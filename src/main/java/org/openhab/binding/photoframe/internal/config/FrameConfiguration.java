@@ -44,6 +44,8 @@ public class FrameConfiguration {
     public String fitMode = "BLUR";
     public int maxSize = 1920;
     public String tapUrl = "";
+    /** Address of openHAB as seen from the screens, e.g. http://192.168.1.10:8080; empty detects it. */
+    public String baseUrl = "";
     public int cacheSizeMb = 500;
 
     // Overlays

@@ -152,6 +152,13 @@
 				<description>Address opened when the slideshow is tapped. Empty switches to full screen.</description>
 				<advanced>true</advanced>
 			</parameter>
+			<parameter name="baseUrl" type="text" groupName="slideshow">
+				<context>url</context>
+				<label>openHAB Address</label>
+				<description>Address of openHAB as seen from the screens, e.g. http://192.168.1.10:8080. Empty detects it; set it
+					when openHAB runs in Docker without host network.</description>
+				<advanced>true</advanced>
+			</parameter>
 			<parameter name="cacheSizeMb" type="integer" min="50" groupName="slideshow">
 				<label>Cache Size</label>
 				<default>500</default>
