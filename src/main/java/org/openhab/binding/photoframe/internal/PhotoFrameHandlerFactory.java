@@ -98,7 +98,8 @@ public class PhotoFrameHandlerFactory extends BaseThingHandlerFactory {
         if (THING_TYPE_DROPBOX.equals(thingTypeUID)) {
             return new DropboxBridgeHandler((Bridge) thing, oAuthFactory, httpClientFactory.getCommonHttpClient());
         } else if (THING_TYPE_FRAME.equals(thingTypeUID)) {
-            return new PhotoFrameHandler(thing, servlet, itemRegistry, this::defaultBaseUrl);
+            return new PhotoFrameHandler(thing, servlet, itemRegistry, httpClientFactory.getCommonHttpClient(),
+                    this::defaultBaseUrl);
         }
 
         return null;

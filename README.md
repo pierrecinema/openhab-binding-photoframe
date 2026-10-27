@@ -12,7 +12,7 @@ Turns openHAB into a digital photo frame: pictures from a folder are shown as a 
 
 Requires **openHAB 5.0 or later**.
 
-> **Status:** test version 0.0.4 – local folder only. Google Drive and Dropbox follow in the next test versions.
+> **Status:** test version 0.0.5 – local folder and Dropbox shared link. Dropbox login and Google Drive follow.
 > Specification (German): [docs/SPEZIFIKATION.md](docs/SPEZIFIKATION.md)
 
 ## Quick Start
@@ -21,6 +21,15 @@ Requires **openHAB 5.0 or later**.
 1. Add a **Photoframe** thing (Settings → Things → + → Photoframe Binding) with source **Local folder**.
 1. Put pictures (JPEG, PNG, GIF, BMP) into the folder shown in the thing status, by default `userdata/photoframe` (Docker: `/openhab/userdata/photoframe`). For a second photo frame, enter another folder in its settings.
 1. Open the address from the **Slideshow Address** channel (`pageUrl`) on a tablet or PC. Tap to switch to full screen.
+
+### Pictures from Dropbox
+
+1. In Dropbox, create a folder for the photo frame and put pictures into it.
+1. **Share** the folder → **Copy link** (a link like `https://www.dropbox.com/scl/fo/...`).
+1. In the Photoframe thing select source **Dropbox shared folder link** and paste the link into **Shared Link**.
+
+The folder is read every 60 minutes (advanced setting *Refresh Interval*); the *Refresh Now* channel reads it immediately.
+Anyone who knows a shared link can see the pictures – only use it for pictures that may be seen this way.
 
 If openHAB runs in Docker without host network, the detected address may be the container address.
 Then set **openHAB Address** (advanced setting `baseUrl`), for example `http://192.168.1.10:8080`.

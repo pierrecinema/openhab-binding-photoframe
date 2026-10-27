@@ -35,6 +35,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
+import org.eclipse.jetty.client.HttpClient;
 import org.openhab.binding.photoframe.internal.action.PhotoFrameActions;
 import org.openhab.binding.photoframe.internal.config.FrameConfiguration;
 import org.openhab.binding.photoframe.internal.image.ImageCache;
@@ -44,6 +45,7 @@ import org.openhab.binding.photoframe.internal.servlet.PhotoFrameServlet;
 import org.openhab.binding.photoframe.internal.slideshow.Captions;
 import org.openhab.binding.photoframe.internal.slideshow.NightSchedule;
 import org.openhab.binding.photoframe.internal.slideshow.Slideshow;
+import org.openhab.binding.photoframe.internal.source.DropboxLinkSource;
 import org.openhab.binding.photoframe.internal.source.ImageSource;
 import org.openhab.binding.photoframe.internal.source.LocalFolderSource;
 import org.openhab.binding.photoframe.internal.source.SourceException;
@@ -91,6 +93,7 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
     private final Logger logger = LoggerFactory.getLogger(PhotoFrameHandler.class);
     private final PhotoFrameServlet servlet;
     private final ItemRegistry itemRegistry;
+    private final HttpClient httpClient;
     private final Supplier<String> defaultBaseUrl;
     private final Gson gson = new Gson();
 
@@ -107,11 +110,12 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
     private @Nullable ScheduledFuture<?> advanceJob;
     private @Nullable ScheduledFuture<?> nightJob;
 
-    public PhotoFrameHandler(Thing thing, PhotoFrameServlet servlet, ItemRegistry itemRegistry,
+    public PhotoFrameHandler(Thing thing, PhotoFrameServlet servlet, ItemRegistry itemRegistry, HttpClient httpClient,
             Supplier<String> defaultBaseUrl) {
         super(thing);
         this.servlet = servlet;
         this.itemRegistry = itemRegistry;
+        this.httpClient = httpClient;
         this.defaultBaseUrl = defaultBaseUrl;
     }
 
@@ -121,16 +125,16 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
         slideshow = new Slideshow("NAME".equals(config.order) ? Slideshow.Order.NAME : Slideshow.Order.RANDOM);
         night = new NightSchedule(!"OFF".equals(config.nightMode), config.nightStart, config.nightEnd);
 
+        Path cacheDir = Path.of(OpenHAB.getUserDataFolder(), "cache", BINDING_ID, getThing().getUID().getId());
         ImageSource source;
         try {
-            source = createSource();
+            source = createSource(cacheDir);
         } catch (SourceException e) {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR, e.getMessage());
             return;
         }
         this.source = source;
 
-        Path cacheDir = Path.of(OpenHAB.getUserDataFolder(), "cache", BINDING_ID, getThing().getUID().getId());
         try {
             cache = new ImageCache(cacheDir, source, config.maxSize, config.cacheSizeMb * 1024L * 1024L);
         } catch (IOException e) {
@@ -437,8 +441,14 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
 
     // --- helpers -------------------------------------------------------------------------------------------
 
-    private ImageSource createSource() throws SourceException {
+    private ImageSource createSource(Path cacheDir) throws SourceException {
         switch (config.sourceType) {
+            case FrameConfiguration.SOURCE_DROPBOX_LINK:
+                if (config.link.isBlank()) {
+                    throw new SourceException("@text/offline.config-error.dropbox-link-missing", true);
+                }
+                // The pictures of the ZIP are kept next to the converted copies
+                return new DropboxLinkSource(httpClient, config.link, cacheDir.resolve("source"));
             case FrameConfiguration.SOURCE_LOCAL:
                 Path folder = getLocalFolder();
                 try {

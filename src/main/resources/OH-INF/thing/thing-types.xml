@@ -43,6 +43,7 @@
 				<label>Source Type</label>
 				<options>
 					<option value="LOCAL">Local folder</option>
+					<option value="DROPBOX_LINK">Dropbox shared folder link</option>
 				</options>
 				<limitToOptions>true</limitToOptions>
 				<default>LOCAL</default>
@@ -51,6 +52,12 @@
 				<label>Local Folder</label>
 				<description>Folder with the pictures. Empty uses userdata/photoframe, which the binding creates. For a second photo
 					frame enter another folder.</description>
+			</parameter>
+			<parameter name="link" type="text" groupName="source">
+				<context>url</context>
+				<label>Shared Link</label>
+				<description>Shared folder link from Dropbox ("Copy link" on the folder), for the source Dropbox shared folder
+					link.</description>
 			</parameter>
 			<parameter name="refreshMinutes" type="integer" min="0" unit="min" groupName="source">
 				<label>Refresh Interval</label>
