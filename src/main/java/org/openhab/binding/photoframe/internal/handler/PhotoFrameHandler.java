@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
@@ -85,6 +86,7 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
     private static final int NIGHT_CHECK_SECONDS = 30;
     private static final int MAX_OVERLAY_ITEMS = 4;
     private static final int TOKEN_BYTES = 18;
+    private static final String CONFIG_OVERLAY_ITEMS = "overlayItems";
 
     private final Logger logger = LoggerFactory.getLogger(PhotoFrameHandler.class);
     private final PhotoFrameServlet servlet;
@@ -384,11 +386,24 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
     }
 
     private List<FrameState.Overlay> overlayValues() {
-        if (config.overlayItems.isBlank()) {
+        return overlayItemNames(getThing().getConfiguration().get(CONFIG_OVERLAY_ITEMS)).stream()
+                .map(this::overlayValue).toList();
+    }
+
+    /**
+     * Returns the configured overlay item names. The setting is a list (item picker); test versions up to 0.0.3
+     * stored a comma-separated text, which is still accepted.
+     */
+    static List<String> overlayItemNames(@Nullable Object value) {
+        Stream<String> names;
+        if (value instanceof Collection<?> collection) {
+            names = collection.stream().map(String::valueOf);
+        } else if (value instanceof String text) {
+            names = Arrays.stream(text.split(","));
+        } else {
             return List.of();
         }
-        return Arrays.stream(config.overlayItems.split(",")).map(String::trim).filter(s -> !s.isEmpty())
-                .limit(MAX_OVERLAY_ITEMS).map(this::overlayValue).toList();
+        return names.map(String::trim).filter(s -> !s.isEmpty()).distinct().limit(MAX_OVERLAY_ITEMS).toList();
     }
 
     private FrameState.Overlay overlayValue(String itemName) {

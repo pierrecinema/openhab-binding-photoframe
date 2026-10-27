@@ -173,38 +173,50 @@
     active = 1 - active;
   }
 
+  // Start and end states of the transitions; the end state is always the plain visible picture.
+  var TRANSITION_START = {
+    FADE: { opacity: '0' },
+    SLIDE: { opacity: '1', transform: 'translateX(100%)' },
+    WIPE: { opacity: '1', clipPath: 'inset(0 100% 0 0)' },
+    ZOOM: { opacity: '0', transform: 'scale(1.18)' }
+  };
+  var TRANSITION_END = { opacity: '1', transform: 'translateX(0) scale(1)', clipPath: 'inset(0 0 0 0)' };
+  var transitionToken = 0;
+
+  function resetStyle(el) {
+    el.style.transition = 'none';
+    el.style.opacity = '';
+    el.style.transform = '';
+    el.style.clipPath = '';
+  }
+
+  // Uses CSS transitions, and sets the final state with a timer. The timer makes sure the new picture is
+  // always shown, even if the browser skips or pauses the animation (for example on a sleeping tablet).
   function animateIn(next, prev, type, duration, done) {
-    next.getAnimations && next.getAnimations().forEach(function (a) { a.cancel(); });
-    var frames;
-    var prevFrames = null;
-    if (type === 'SLIDE') {
-      frames = [{ opacity: 1, transform: 'translateX(100%)' }, { opacity: 1, transform: 'translateX(0)' }];
-      prevFrames = [{ transform: 'translateX(0)' }, { transform: 'translateX(-100%)' }];
-    } else if (type === 'WIPE') {
-      frames = [{ opacity: 1, clipPath: 'inset(0 100% 0 0)' }, { opacity: 1, clipPath: 'inset(0 0 0 0)' }];
-    } else if (type === 'ZOOM') {
-      frames = [{ opacity: 0, transform: 'scale(1.18)' }, { opacity: 1, transform: 'scale(1)' }];
-    } else {
-      frames = [{ opacity: 0 }, { opacity: 1 }];
-    }
+    var token = ++transitionToken;
     var finish = function () {
+      if (token !== transitionToken) { return; }
+      resetStyle(next);
+      resetStyle(prev);
       next.classList.add('visible');
-      next.style.transform = '';
-      next.style.clipPath = '';
       prev.classList.remove('visible');
-      prev.style.transform = '';
       done();
     };
-    if (duration <= 0 || !next.animate) { finish(); return; }
-    var anim = next.animate(frames, { duration: duration, easing: 'ease-in-out', fill: 'forwards' });
-    if (prevFrames && prev.animate) {
-      prev.animate(prevFrames, { duration: duration, easing: 'ease-in-out', fill: 'forwards' });
+    resetStyle(next);
+    resetStyle(prev);
+    var start = TRANSITION_START[type];
+    if (duration <= 0 || !start) { finish(); return; }
+
+    Object.keys(start).forEach(function (k) { next.style[k] = start[k]; });
+    void next.offsetWidth; // apply the start state before the transition begins
+    var timing = duration + 'ms ease-in-out';
+    next.style.transition = 'opacity ' + timing + ', transform ' + timing + ', clip-path ' + timing;
+    Object.keys(start).forEach(function (k) { next.style[k] = TRANSITION_END[k]; });
+    if (type === 'SLIDE') {
+      prev.style.transition = 'transform ' + timing;
+      prev.style.transform = 'translateX(-100%)';
     }
-    anim.onfinish = function () {
-      finish();
-      anim.cancel();
-      prev.getAnimations && prev.getAnimations().forEach(function (a) { a.cancel(); });
-    };
+    setTimeout(finish, duration + 60);
   }
 
   function kenBurns(fg, settings, transitionMs) {

@@ -274,9 +274,10 @@ Geschätzter Aufwand: etwa 4–5 Arbeitstage.
 | 0.0.1 | M2 | lokaler Ordner, Diashow im Vollbild, Übergänge, Nachtmodus, Steuerung |
 | 0.0.2 | – | Name „Photoframe“, nur funktionierende Optionen sichtbar (Dropbox-Bridge ausgeblendet) |
 | 0.0.3 | – | Standardordner `userdata/photoframe` ohne Unterordner |
-| 0.0.4 | M3 | Google Drive (Link + API-Key) |
-| 0.0.5 | M4 | Dropbox-Link |
-| 0.0.6 | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
+| 0.0.4 | – | Korrekturen aus dem ersten Test: Schwarzbild bei „Schieben“, Docker-Adresse, Item-Auswahl für Einblendungen |
+| 0.0.5 | M3 | Google Drive (Link + API-Key) |
+| 0.0.6 | M4 | Dropbox-Link |
+| 0.0.7 | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
 | **0.1.0** | M6 | Widget, vollständige Anleitungen – erste Version für Beta-Tester |
 
 M1 (nur Gerüst) bekommt keine Test-Version, weil es darin noch nichts auszuprobieren gibt.

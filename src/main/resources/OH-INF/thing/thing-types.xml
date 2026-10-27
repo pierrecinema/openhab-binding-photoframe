@@ -143,9 +143,12 @@
 				<limitToOptions>true</limitToOptions>
 				<default>NONE</default>
 			</parameter>
-			<parameter name="overlayItems" type="text" groupName="overlay">
+			<parameter name="overlayItems" type="text" multiple="true" groupName="overlay">
+				<context>item</context>
 				<label>Overlay Items</label>
-				<description>Up to 4 item names, separated by commas, whose values are shown on the pictures.</description>
+				<description>Up to 4 items whose label and value are shown on the pictures, e.g. temperatures.</description>
+				<limitToOptions>false</limitToOptions>
+				<multipleLimit>4</multipleLimit>
 			</parameter>
 			<parameter name="caption" type="text" groupName="overlay">
 				<label>Caption</label>

@@ -12,7 +12,7 @@ Turns openHAB into a digital photo frame: pictures from a folder are shown as a 
 
 Requires **openHAB 5.0 or later**.
 
-> **Status:** test version 0.0.3 – local folder only. Google Drive and Dropbox follow in the next test versions.
+> **Status:** test version 0.0.4 – local folder only. Google Drive and Dropbox follow in the next test versions.
 > Specification (German): [docs/SPEZIFIKATION.md](docs/SPEZIFIKATION.md)
 
 ## Quick Start
@@ -27,8 +27,24 @@ Then set **openHAB Address** (advanced setting `baseUrl`), for example `http://1
 
 ### As Tablet Screensaver
 
-- **Fully Kiosk Browser:** Settings → Screensaver → set the timer and enter the slideshow address as **Screensaver Wallpaper URL / Playlist**. Touching the screen returns to openHAB. To switch the screen off at night, use "Screen off" times of Fully Kiosk or the night mode of the binding.
-- **WallPanel:** Settings → Screen saver → enable and set the slideshow address as web page.
+Two ways with [Fully Kiosk Browser](https://www.fully-kiosk.com) (Android). Menu names can differ slightly between versions.
+
+**A – free version: slideshow as start page, back to it when idle**
+
+1. Fully Kiosk → Settings → **Web Content Settings → Start URL**: the slideshow address.
+1. In the Photoframe thing set **Tap Address** (advanced) to your openHAB page, e.g. `http://192.168.1.10:8080/page/overview`.
+1. Fully Kiosk → Settings → **Web Auto Reload → Auto Reload on Idle**: e.g. `120` seconds.
+
+Result: the tablet shows the slideshow; a tap opens openHAB; after 2 minutes without touch it returns to the slideshow.
+
+**B – Fully Kiosk PLUS: real screensaver**
+
+1. Fully Kiosk → Settings → **Screensaver → Screensaver Timer**: e.g. `120` seconds.
+1. **Screensaver Playlist** → add an item of type *Web page / URL* with the slideshow address.
+
+Result: openHAB stays the start page; after 2 minutes without touch the slideshow starts, a tap returns to openHAB.
+
+At night the tablet screen can be switched off with Fully Kiosk ("Screen off" times) or darkened with the night mode of the binding.
 
 ## License
 

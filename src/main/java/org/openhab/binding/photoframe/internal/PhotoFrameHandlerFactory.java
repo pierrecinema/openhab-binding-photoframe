@@ -105,11 +105,12 @@ public class PhotoFrameHandlerFactory extends BaseThingHandlerFactory {
     }
 
     /**
-     * Returns http://&lt;primary IP&gt;:&lt;HTTP port&gt; of this openHAB instance.
+     * Returns http://&lt;home network address&gt;:&lt;HTTP port&gt; of this openHAB instance; Docker network
+     * addresses are skipped.
      */
     private String defaultBaseUrl() {
-        String host = networkAddressService.getPrimaryIpv4HostAddress();
+        String host = HostAddress.find(networkAddressService.getPrimaryIpv4HostAddress());
         int port = bundleContext != null ? HttpServiceUtil.getHttpServicePort(bundleContext) : -1;
-        return "http://" + (host != null ? host : "localhost") + ":" + (port > 0 ? port : DEFAULT_PORT);
+        return "http://" + host + ":" + (port > 0 ? port : DEFAULT_PORT);
     }
 }

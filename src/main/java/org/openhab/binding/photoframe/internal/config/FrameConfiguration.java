@@ -50,7 +50,7 @@ public class FrameConfiguration {
 
     // Overlays
     public String clock = "NONE";
-    public String overlayItems = "";
+    // overlayItems is a list of item names; it is read by the handler, because 0.0.x stored it as text
     public String caption = "NONE";
 
     // Night mode
