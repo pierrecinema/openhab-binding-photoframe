@@ -439,13 +439,13 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
     }
 
     /**
-     * Returns the configured local folder, or userdata/photoframe/&lt;thing id&gt; when none is configured.
+     * Returns the configured local folder, or userdata/photoframe when none is configured.
      */
     Path getLocalFolder() {
         if (!config.localFolder.isBlank()) {
             return Path.of(config.localFolder.trim());
         }
-        return Path.of(OpenHAB.getUserDataFolder(), BINDING_ID, getThing().getUID().getId());
+        return Path.of(OpenHAB.getUserDataFolder(), BINDING_ID);
     }
 
     private String describeFolder() {

@@ -78,7 +78,7 @@ photoframe:frame    (Thing, ohne Bridge) – für lokalen Ordner, Google-Drive-L
 ## 4. Quellen
 
 ### 4.1 Lokaler Ordner
-- **Das Binding legt den Ordner selbst an:** Bleibt der Pfad leer (Standard), erstellt das Binding beim Anlegen des Things den Ordner `userdata/photoframe/<thingId>` (Docker: `/openhab/userdata/photoframe/<thingId>`). Der Pfad steht in den Thing-Properties (`localFolder`) und in der Statusmeldung, solange der Ordner leer ist: *„Lege Bilder in /openhab/userdata/photoframe/wohnzimmer“*.
+- **Das Binding legt den Ordner selbst an:** Bleibt der Pfad leer (Standard), erstellt das Binding beim Anlegen des Things den Ordner `userdata/photoframe` (Docker: `/openhab/userdata/photoframe`) – **ohne Unterordner**. Für einen zweiten Rahmen trägt man einen eigenen Pfad ein, z. B. `/openhab/userdata/photoframe-urlaub`. Der Pfad steht in den Thing-Properties (`localFolder`) und in der Statusmeldung, solange der Ordner leer ist: *„Lege Bilder in /openhab/userdata/photoframe“*.
 - Alternativ ein eigener Pfad, z. B. eine Netzwerkfreigabe, die im Container eingebunden ist. Existiert er nicht, wird er angelegt (sofern openHAB dort schreiben darf).
 - Beim Löschen des Things bleibt der Ordner mit den Bildern erhalten (keine Bilder ungefragt löschen).
 - Ordner wird beim Neu-Einlesen (Standard alle 5 min) gelesen; Änderungen erscheinen ohne Neustart.
@@ -182,7 +182,7 @@ Im Nachtmodus wechseln keine Bilder und es wird nichts geladen. Tippen auf den B
 | Parameter | Typ | Standard | Beschreibung |
 |---|---|---|---|
 | `sourceType` | Auswahl `LOCAL` / `GOOGLE_DRIVE` / `DROPBOX_LINK` / `DROPBOX` | – | Quelle (`DROPBOX` braucht die Dropbox-Bridge) |
-| `localFolder` | Text | leer | Pfad für `LOCAL`; leer = Binding legt `userdata/photoframe/<thingId>` an |
+| `localFolder` | Text | leer | Pfad für `LOCAL`; leer = Binding legt `userdata/photoframe` an (ohne Unterordner) |
 | `link` | Text | – | Freigabelink für `GOOGLE_DRIVE` / `DROPBOX_LINK` |
 | `apiKey` | Text (password) | – | Google-API-Key für `GOOGLE_DRIVE` |
 | `folder` | Text | leer | Unterordner im Dropbox-App-Ordner für `DROPBOX` (leer = App-Ordner selbst) |
@@ -273,9 +273,10 @@ Geschätzter Aufwand: etwa 4–5 Arbeitstage.
 |---|---|---|
 | 0.0.1 | M2 | lokaler Ordner, Diashow im Vollbild, Übergänge, Nachtmodus, Steuerung |
 | 0.0.2 | – | Name „Photoframe“, nur funktionierende Optionen sichtbar (Dropbox-Bridge ausgeblendet) |
-| 0.0.3 | M3 | Google Drive (Link + API-Key) |
-| 0.0.4 | M4 | Dropbox-Link |
-| 0.0.5 | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
+| 0.0.3 | – | Standardordner `userdata/photoframe` ohne Unterordner |
+| 0.0.4 | M3 | Google Drive (Link + API-Key) |
+| 0.0.5 | M4 | Dropbox-Link |
+| 0.0.6 | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
 | **0.1.0** | M6 | Widget, vollständige Anleitungen – erste Version für Beta-Tester |
 
 M1 (nur Gerüst) bekommt keine Test-Version, weil es darin noch nichts auszuprobieren gibt.
@@ -292,4 +293,4 @@ M1 (nur Gerüst) bekommt keine Test-Version, weil es darin noch nichts auszuprob
 | 4 | Name | **„Photoframe Binding“**, Thing „Photoframe“ – in allen Sprachen |
 | 7 | Sichtbare Optionen | Nur funktionierende Quellen/Things werden angeboten; Dropbox-Bridge erst mit dem Dropbox-Login |
 | 5 | Release-Dateien | JAR + Widget-YAML + Anleitungen sichtbar im Release |
-| 6 | Lokaler Ordner | Binding legt `userdata/photoframe/<thingId>` selbst an |
+| 6 | Lokaler Ordner | Binding legt `userdata/photoframe` selbst an, **ohne Unterordner**; weitere Rahmen bekommen einen eigenen Pfad |

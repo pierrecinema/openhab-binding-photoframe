@@ -49,7 +49,8 @@
 			</parameter>
 			<parameter name="localFolder" type="text" groupName="source">
 				<label>Local Folder</label>
-				<description>Folder with the pictures. Empty creates userdata/photoframe/&lt;thing id&gt;.</description>
+				<description>Folder with the pictures. Empty uses userdata/photoframe, which the binding creates. For a second photo
+					frame enter another folder.</description>
 			</parameter>
 			<parameter name="refreshMinutes" type="integer" min="0" unit="min" groupName="source">
 				<label>Refresh Interval</label>
