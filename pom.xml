@@ -17,9 +17,9 @@
 
   <artifactId>org.openhab.binding.photoframe</artifactId>
   <!-- Own release version for the marketplace JAR; inside openhab-addons the reactor version is used instead. -->
-  <version>0.0.1</version>
+  <version>0.1.1</version>
 
-  <name>openHAB Add-ons :: Bundles :: Photo Frame Binding</name>
+  <name>openHAB Add-ons :: Bundles :: Photoframe Binding</name>
 
   <!--
     Standalone build: the add-on reactor root is not available, so the static code analysis rules are taken from the

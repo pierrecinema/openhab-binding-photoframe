@@ -4,31 +4,14 @@
 	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
 	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
 
-	<!-- Dropbox account (optional, for the DROPBOX source) -->
-	<bridge-type id="dropbox">
-		<label>Dropbox Account</label>
-		<description>Login to Dropbox. The binding only sees its own app folder in your Dropbox.</description>
-		<semantic-equipment-tag>WebService</semantic-equipment-tag>
-
-		<config-description>
-			<parameter name="appKey" type="text" required="true">
-				<label>App Key</label>
-				<description>App key of your own Dropbox app (Scoped access, App folder).</description>
-			</parameter>
-			<parameter name="authCode" type="text">
-				<label>Authorization Code</label>
-				<description>Code shown by Dropbox after you allowed access. It is cleared after a successful login.</description>
-			</parameter>
-		</config-description>
-	</bridge-type>
+	<!--
+		The Dropbox account bridge and the Google Drive / Dropbox sources are added with the test versions that
+		implement them, so that only working options are offered.
+	-->
 
 	<!-- Photo frame -->
 	<thing-type id="frame">
-		<supported-bridge-type-refs>
-			<bridge-type-ref id="dropbox"/>
-		</supported-bridge-type-refs>
-
-		<label>Photo Frame</label>
+		<label>Photoframe</label>
 		<description>A slideshow of the pictures in one folder, shown on a web page that can be used as tablet screensaver.</description>
 		<semantic-equipment-tag>Screen</semantic-equipment-tag>
 
@@ -60,9 +43,6 @@
 				<label>Source Type</label>
 				<options>
 					<option value="LOCAL">Local folder</option>
-					<option value="GOOGLE_DRIVE">Google Drive shared folder</option>
-					<option value="DROPBOX_LINK">Dropbox shared folder link</option>
-					<option value="DROPBOX">Dropbox account (needs the Dropbox bridge)</option>
 				</options>
 				<limitToOptions>true</limitToOptions>
 				<default>LOCAL</default>
@@ -70,19 +50,6 @@
 			<parameter name="localFolder" type="text" groupName="source">
 				<label>Local Folder</label>
 				<description>Folder with the pictures. Empty creates userdata/photoframe/&lt;thing id&gt;.</description>
-			</parameter>
-			<parameter name="link" type="text" groupName="source">
-				<label>Shared Link</label>
-				<description>Shared folder link for Google Drive or Dropbox.</description>
-			</parameter>
-			<parameter name="apiKey" type="text" groupName="source">
-				<context>password</context>
-				<label>Google API Key</label>
-				<description>API key of your Google Cloud project, needed for Google Drive.</description>
-			</parameter>
-			<parameter name="folder" type="text" groupName="source">
-				<label>Dropbox Folder</label>
-				<description>Sub folder in the Dropbox app folder. Empty uses the app folder itself.</description>
 			</parameter>
 			<parameter name="refreshMinutes" type="integer" min="0" unit="min" groupName="source">
 				<label>Refresh Interval</label>

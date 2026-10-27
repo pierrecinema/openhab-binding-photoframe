@@ -49,5 +49,5 @@ jobs:
             gh release upload "$GITHUB_REF_NAME" "${ASSETS[@]}" --clobber
           else
             gh release create "$GITHUB_REF_NAME" "${ASSETS[@]}" \
-              --title "Photo Frame Binding $VERSION" $PRERELEASE "${NOTES_ARG[@]}"
+              --title "Photoframe Binding $VERSION" $PRERELEASE "${NOTES_ARG[@]}"
           fi

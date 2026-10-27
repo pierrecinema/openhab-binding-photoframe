@@ -32,7 +32,8 @@ public class PhotoFrameBindingConstants {
     public static final ThingTypeUID THING_TYPE_DROPBOX = new ThingTypeUID(BINDING_ID, "dropbox");
     public static final ThingTypeUID THING_TYPE_FRAME = new ThingTypeUID(BINDING_ID, "frame");
 
-    public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = Set.of(THING_TYPE_DROPBOX, THING_TYPE_FRAME);
+    /** The Dropbox bridge is offered once the Dropbox login is available. */
+    public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = Set.of(THING_TYPE_FRAME);
 
     // Frame channels
     public static final String CHANNEL_CONTROL = "control";

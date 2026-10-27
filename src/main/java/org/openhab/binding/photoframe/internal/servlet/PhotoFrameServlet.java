@@ -137,11 +137,11 @@ public class PhotoFrameServlet extends HttpServlet {
     private static String loadPage() {
         try (InputStream in = PhotoFrameServlet.class.getResourceAsStream(PAGE_RESOURCE)) {
             if (in == null) {
-                return "<!doctype html><title>Photo Frame</title><p>Slideshow page missing";
+                return "<!doctype html><title>Photoframe</title><p>Slideshow page missing";
             }
             return new String(in.readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            return "<!doctype html><title>Photo Frame</title><p>Slideshow page cannot be loaded";
+            return "<!doctype html><title>Photoframe</title><p>Slideshow page cannot be loaded";
         }
     }
 }
