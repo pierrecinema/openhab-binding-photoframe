@@ -265,7 +265,17 @@ Status `OFFLINE / CONFIGURATION_PENDING` mit Login-Link, bis der Code eingetrage
 
 Geschätzter Aufwand: etwa 4–5 Arbeitstage.
 
-**Test-Versionen:** **0.0.1** nach M2 (lokaler Ordner + Diashow), **0.0.2** nach M3 (+ Google Drive), dann **0.1.0** komplett. Jede mit GitHub-Release inkl. JAR.
+**Test-Versionen nach jedem Meilenstein**, jede mit GitHub-Release (JAR, Widget, Anleitungen):
+
+| Version | nach | Neu zum Testen |
+|---|---|---|
+| 0.0.1 | M2 | lokaler Ordner, Diashow im Vollbild, Übergänge, Nachtmodus, Steuerung |
+| 0.0.2 | M3 | Google Drive (Link + API-Key) |
+| 0.0.3 | M4 | Dropbox-Link |
+| 0.0.4 | M5 | Dropbox mit Login |
+| **0.1.0** | M6 | Widget, vollständige Anleitungen – erste Version für Beta-Tester |
+
+M1 (nur Gerüst) bekommt keine Test-Version, weil es darin noch nichts auszuprobieren gibt.
 
 ---
 
@@ -275,7 +285,7 @@ Geschätzter Aufwand: etwa 4–5 Arbeitstage.
 |---|---|---|
 | 1 | Optionen | Standardwerte ok, **Nachtmodus** ergänzt (§6); weitere Optionen kann Pierrecinema noch nachreichen |
 | 2 | Zugriffstoken | **ja** |
-| 3 | Zwischen-Releases | **ja**: 0.0.1 nach M2, 0.0.2 nach M3, dann 0.1.0 |
+| 3 | Test-Versionen | **nach jedem Meilenstein** (0.0.1 … 0.0.4, dann 0.1.0), §11 |
 | 4 | Name | **„Photo Frame Binding“** |
 | 5 | Release-Dateien | JAR + Widget-YAML + Anleitungen sichtbar im Release |
 | 6 | Lokaler Ordner | Binding legt `userdata/photoframe/<thingId>` selbst an |
