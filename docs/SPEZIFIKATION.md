@@ -263,13 +263,19 @@ Status `OFFLINE / CONFIGURATION_PENDING` mit Login-Link, bis der Code eingetrage
 | M5 | Dropbox-Bridge mit Login |
 | M6 | Widget, README (EN) + Anleitung (DE), Screenshots → **Release 0.1.0** |
 
-Geschätzter Aufwand: etwa 4–5 Arbeitstage. Auf Wunsch gibt es nach M2 und M3 Zwischen-Releases für frühe Tests.
+Geschätzter Aufwand: etwa 4–5 Arbeitstage.
+
+**Test-Versionen:** **0.0.1** nach M2 (lokaler Ordner + Diashow), **0.0.2** nach M3 (+ Google Drive), dann **0.1.0** komplett. Jede mit GitHub-Release inkl. JAR.
 
 ---
 
-## 12. Offene Fragen an dich
+## 12. Entscheidungen
 
-1. **Optionen (§6/§7):** Passen Übergänge, Standardwerte (30 s, Überblenden 1,5 s, Ken-Burns an, Unschärfe-Rand) und die Einblendungen (Uhr, Items, Bildunterschrift) – oder willst du etwas anders/zusätzlich (z. B. Nachtmodus mit dunklem Bildschirm zu bestimmten Zeiten)?
-2. **Zugriffstoken (§6):** Einverstanden, dass die Diashow-Adresse einen Token braucht?
-3. **Zwischen-Releases** nach M2/M3 oder erst 0.1.0 komplett?
-4. **Name im Marketplace:** „Photo Frame Binding“ ok?
+| # | Thema | Stand |
+|---|---|---|
+| 1 | Optionen | Standardwerte ok, **Nachtmodus** ergänzt (§6); weitere Optionen kann Pierrecinema noch nachreichen |
+| 2 | Zugriffstoken | **ja** |
+| 3 | Zwischen-Releases | **ja**: 0.0.1 nach M2, 0.0.2 nach M3, dann 0.1.0 |
+| 4 | Name | **„Photo Frame Binding“** |
+| 5 | Release-Dateien | JAR + Widget-YAML + Anleitungen sichtbar im Release |
+| 6 | Lokaler Ordner | Binding legt `userdata/photoframe/<thingId>` selbst an |
