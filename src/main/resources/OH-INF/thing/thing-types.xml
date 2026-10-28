@@ -122,7 +122,7 @@
 				<advanced>true</advanced>
 			</parameter>
 			<parameter name="tapUrl" type="text" groupName="slideshow">
-				<context>url</context>
+				<!-- no url context: Android app addresses such as intent://… must be accepted too -->
 				<label>Tap Address</label>
 				<description>Address opened when the slideshow is tapped. Empty switches to full screen.</description>
 				<advanced>true</advanced>
