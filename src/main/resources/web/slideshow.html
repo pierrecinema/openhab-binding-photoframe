@@ -63,6 +63,10 @@
 <div id="night"><div id="nightClock"></div></div>
 <div id="paused">&#10074;&#10074;</div>
 <div id="status" title="No connection to openHAB"></div>
+<div id="app" style="display:none; position:absolute; top:0; right:0; bottom:0; left:0; z-index:50; background:#000;">
+  <iframe id="appFrame" title="openHAB" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0; background:#fff;"></iframe>
+  <div id="appClose" style="position:absolute; right:10px; bottom:10px; width:44px; height:44px; line-height:44px; text-align:center; border-radius:22px; font-size:22px; color:#fff; -webkit-text-fill-color:#fff; background:rgba(0,0,0,0.45); cursor:pointer; z-index:51;" title="Back to the slideshow">&#10005;</div>
+</div>
 <div id="error" style="display:none; position:absolute; left:8px; right:8px; top:8px; z-index:40; padding:8px; font-size:13px; color:#ff8a80; background:rgba(0,0,0,0.7); border-radius:6px; word-break:break-all;"></div>
 <script>
 (function () {
@@ -337,14 +341,68 @@
   function hideMessage() { $('message').classList.remove('on'); }
 
   // --- tap, full screen, wake lock, cursor -----------------------------------------------------------------
+  // --- openHAB (or another page of this server) as full screen layer -------------------------------------
+  // Addresses of the same server open on top of the slideshow. As the page comes from the same server, the
+  // slideshow sees touches inside it and returns by itself after the configured idle time.
+  var appOpen = false;
+  var appLastActivity = 0;
+
+  function isSameServer(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a.protocol === location.protocol && a.host === location.host;
+  }
+  function returnSeconds() {
+    var p = param('return');
+    var value = p !== null ? parseInt(p, 10) : (state ? state.settings.returnSeconds : 120);
+    return isNaN(value) ? 120 : value;
+  }
+  function appActivity() { appLastActivity = Date.now(); }
+  function openApp(url) {
+    var frame = $('appFrame');
+    if (frame.getAttribute('data-src') !== url) {
+      frame.setAttribute('data-src', url);
+      frame.src = url;
+    }
+    $('app').style.display = 'block';
+    appOpen = true;
+    appActivity();
+  }
+  function closeApp() {
+    $('app').style.display = 'none';
+    appOpen = false;
+  }
+  $('appFrame').addEventListener('load', function () {
+    try {
+      var doc = $('appFrame').contentWindow.document;
+      ['touchstart', 'pointerdown', 'mousedown', 'keydown', 'wheel', 'scroll'].forEach(function (ev) {
+        doc.addEventListener(ev, appActivity, true);
+      });
+    } catch (e) {
+      // another server: no idle detection possible, the close button still works
+    }
+  });
+  $('appClose').addEventListener('click', function (e) {
+    e.stopPropagation();
+    closeApp();
+  });
+  setInterval(function () {
+    var seconds = returnSeconds();
+    if (appOpen && seconds > 0 && Date.now() - appLastActivity > seconds * 1000) { closeApp(); }
+  }, 1000);
+
   document.addEventListener('click', function () {
+    if (appOpen) { return; }
     if (state && state.night && Date.now() > wakeUntil) {
       wakeUntil = Date.now() + 30000;
       updateNight();
       return;
     }
     var tapUrl = deviceTapUrl || (state && state.settings.tapUrl);
-    if (tapUrl) { location.href = tapUrl; return; }
+    if (tapUrl) {
+      if (isSameServer(tapUrl)) { openApp(tapUrl); } else { location.href = tapUrl; }
+      return;
+    }
     var d = document;
     // Older web views return no Promise here
     var result = null;

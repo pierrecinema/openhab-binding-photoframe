@@ -57,6 +57,7 @@ public class FrameState {
         public String clock = "NONE";
         public String nightMode = "OFF";
         public @Nullable String tapUrl;
+        public int returnSeconds;
     }
 
     public static class Overlay {

@@ -278,8 +278,9 @@ Geschätzter Aufwand: etwa 4–5 Arbeitstage.
 | 0.0.5 | M4 | Dropbox-Link (vorgezogen, weil einfacher als Google) |
 | 0.0.6 | – | Tipp-Adresse nimmt App-Adressen an, `&tap=` pro Bildschirm, ältere Tablet-Browser, Fehleranzeige |
 | 0.0.7 | – | iPad: Uhr, Datum und Einblendungen weiß statt schwarz (iOS-Datumserkennung abgeschaltet) |
-| 0.0.8 | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
-| 0.0.9 | M3 | Google Drive (Link + API-Key) |
+| 0.0.8 | – | Tippen öffnet openHAB als Vollbild-Ebene über der Diashow, automatische Rückkehr nach Leerlauf (`returnSeconds`, `&return=`) |
+| 0.0.9 | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
+| 0.0.10 | M3 | Google Drive (Link + API-Key) |
 | **0.1.0** | M6 | Widget, vollständige Anleitungen – erste Version für Beta-Tester |
 
 M1 (nur Gerüst) bekommt keine Test-Version, weil es darin noch nichts auszuprobieren gibt.

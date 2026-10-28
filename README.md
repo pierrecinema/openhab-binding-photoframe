@@ -12,7 +12,7 @@ Turns openHAB into a digital photo frame: pictures from a folder are shown as a 
 
 Requires **openHAB 5.0 or later**.
 
-> **Status:** test version 0.0.7 – local folder and Dropbox shared link. Dropbox login and Google Drive follow.
+> **Status:** test version 0.0.8 – local folder and Dropbox shared link. Dropbox login and Google Drive follow.
 > Specification (German): [docs/SPEZIFIKATION.md](docs/SPEZIFIKATION.md)
 
 ## Quick Start
@@ -57,6 +57,15 @@ At night the tablet screen can be switched off with Fully Kiosk ("Screen off" ti
 
 **Keep the screen on:** Fully → Device Management → **Keep Screen On**. On the tablet: battery optimisation off for Fully, a long screen timeout, Android screen saver off, tablet on the charger.
 
+### Tap Opens openHAB on Top of the Slideshow (any device, no kiosk app needed)
+
+Set the **Tap Address** to a page of the same openHAB, e.g. `http://192.168.1.10:8080/`.
+A tap then opens openHAB in full screen on top of the slideshow. As long as you use it, it stays open;
+after **Return to Slideshow** seconds (advanced, default 120) without touch the slideshow comes back by itself.
+The ✕ button at the bottom right returns at once.
+
+This works in every browser, also as home screen web app on an iPad, and does not need a kiosk app with an idle function.
+
 ### Tap Opens the openHAB App
 
 The **Tap Address** accepts any address the device can open, including app addresses:
@@ -77,13 +86,14 @@ One Photoframe thing can serve several screens. Append `&tap=` with the URL-enco
 http://192.168.1.10:8080/photoframe/<id>/?token=<token>&tap=openhab%3A%2F%2F
 ```
 
-### Old iPad (Kiosker)
+### iPad (no kiosk app needed)
 
 1. iPad → Settings → Display & Brightness → **Auto-Lock: Never**, iPad on the charger.
-1. Kiosker → settings → **Home URL**: the slideshow address with `&tap=openhab%3A%2F%2F` appended.
-1. If available, let Kiosker return to the home URL after inactivity.
+1. Open in Safari the slideshow address with `&tap=` and the URL-encoded openHAB address, e.g.
+   `…/?token=<token>&tap=http%3A%2F%2F192.168.1.10%3A8080%2F`
+1. **Share → Add to Home Screen**, then open the new icon: the slideshow runs in full screen.
 
-A tap opens the openHAB app; going back to Kiosker (app switcher or home screen) shows the slideshow again.
+A tap opens openHAB on top, and after the idle time the slideshow returns. Optionally append `&return=60` to change the idle time for this screen only.
 
 ## License
 
