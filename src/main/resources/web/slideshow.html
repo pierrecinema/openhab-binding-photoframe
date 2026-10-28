@@ -70,6 +70,20 @@
     offline: 'No connection to openHAB'
   };
   var query = location.search;
+
+  // Returns a parameter of the page address (works without URLSearchParams in old web views)
+  function param(name) {
+    var parts = query.substring(1).split('&');
+    for (var i = 0; i < parts.length; i++) {
+      var kv = parts[i].split('=');
+      if (decodeURIComponent(kv[0]) === name) {
+        return decodeURIComponent((kv.slice(1).join('=') || '').replace(/\+/g, ' '));
+      }
+    }
+    return null;
+  }
+  // "&tap=…" lets every screen open its own address or app, e.g. openhab:// on an iPad
+  var deviceTapUrl = param('tap');
   var slides = [document.getElementById('slideA'), document.getElementById('slideB')];
   var active = 0;
   var state = null;
@@ -323,7 +337,7 @@
       updateNight();
       return;
     }
-    var tapUrl = state && state.settings.tapUrl;
+    var tapUrl = deviceTapUrl || (state && state.settings.tapUrl);
     if (tapUrl) { location.href = tapUrl; return; }
     var d = document;
     // Older web views return no Promise here

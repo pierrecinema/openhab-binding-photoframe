@@ -12,7 +12,7 @@ Turns openHAB into a digital photo frame: pictures from a folder are shown as a 
 
 Requires **openHAB 5.0 or later**.
 
-> **Status:** test version 0.0.5 – local folder and Dropbox shared link. Dropbox login and Google Drive follow.
+> **Status:** test version 0.0.6 – local folder and Dropbox shared link. Dropbox login and Google Drive follow.
 > Specification (German): [docs/SPEZIFIKATION.md](docs/SPEZIFIKATION.md)
 
 ## Quick Start
@@ -54,6 +54,36 @@ Result: the tablet shows the slideshow; a tap opens openHAB; after 2 minutes wit
 Result: openHAB stays the start page; after 2 minutes without touch the slideshow starts, a tap returns to openHAB.
 
 At night the tablet screen can be switched off with Fully Kiosk ("Screen off" times) or darkened with the night mode of the binding.
+
+**Keep the screen on:** Fully → Device Management → **Keep Screen On**. On the tablet: battery optimisation off for Fully, a long screen timeout, Android screen saver off, tablet on the charger.
+
+### Tap Opens the openHAB App
+
+The **Tap Address** accepts any address the device can open, including app addresses:
+
+| Device | Tap Address |
+|---|---|
+| Android, openHAB app (tested with Fully Kiosk) | `intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=org.openhab.habdroid/.ui.MainActivity;end` |
+| iPad / iPhone, openHAB app | `openhab://` |
+| openHAB in the browser | `http://192.168.1.10:8080/` |
+
+The Android address opens the app like its icon does, so the app shows its configured start page.
+
+### Different Tap Address per Screen
+
+One Photoframe thing can serve several screens. Append `&tap=` with the URL-encoded address to the slideshow address of a screen; it overrides the Tap Address of the thing for this screen only:
+
+```text
+http://192.168.1.10:8080/photoframe/<id>/?token=<token>&tap=openhab%3A%2F%2F
+```
+
+### Old iPad (Kiosker)
+
+1. iPad → Settings → Display & Brightness → **Auto-Lock: Never**, iPad on the charger.
+1. Kiosker → settings → **Home URL**: the slideshow address with `&tap=openhab%3A%2F%2F` appended.
+1. If available, let Kiosker return to the home URL after inactivity.
+
+A tap opens the openHAB app; going back to Kiosker (app switcher or home screen) shows the slideshow again.
 
 ## License
 
