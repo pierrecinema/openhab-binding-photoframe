@@ -372,6 +372,14 @@
     $('app').style.display = 'none';
     appOpen = false;
   }
+  // When the slideshow is embedded in a page, browsers block app addresses inside the frame
+  function openExternal(url) {
+    try {
+      window.top.location.href = url;
+    } catch (e) {
+      location.href = url;
+    }
+  }
   $('appFrame').addEventListener('load', function () {
     try {
       var doc = $('appFrame').contentWindow.document;
@@ -400,7 +408,7 @@
     }
     var tapUrl = deviceTapUrl || (state && state.settings.tapUrl);
     if (tapUrl) {
-      if (isSameServer(tapUrl)) { openApp(tapUrl); } else { location.href = tapUrl; }
+      if (isSameServer(tapUrl)) { openApp(tapUrl); } else { openExternal(tapUrl); }
       return;
     }
     var d = document;

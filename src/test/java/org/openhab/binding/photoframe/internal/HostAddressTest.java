@@ -48,6 +48,7 @@ class HostAddressTest {
         assertTrue(HostAddress.isVirtualInterface("docker0"));
         assertTrue(HostAddress.isVirtualInterface("br-3f2a9c"));
         assertTrue(HostAddress.isVirtualInterface("veth12ab"));
+        assertTrue(HostAddress.isVirtualInterface("tailscale0"));
         assertFalse(HostAddress.isVirtualInterface("eth0"));
         assertFalse(HostAddress.isVirtualInterface("enp3s0"));
         assertFalse(HostAddress.isVirtualInterface("wlan0"));

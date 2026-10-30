@@ -1,0 +1,253 @@
+uid: photoframe_card
+tags:
+  - photoframe
+  - slideshow
+props:
+  parameterGroups:
+    - name: frame
+      label: Photoframe thing items
+    - name: display
+      label: Display
+  parameters:
+    - name: title
+      label: Title
+      type: TEXT
+      default: Photoframe
+      groupName: display
+    - name: lang
+      label: Language
+      type: TEXT
+      default: en
+      limitToOptions: true
+      options:
+        - value: en
+          label: English
+        - value: de
+          label: Deutsch
+      groupName: display
+    - name: previewHeight
+      label: Preview height
+      description: Height of the live preview in pixels, 0 hides it
+      type: INTEGER
+      default: 220
+      groupName: display
+    - name: urlItem
+      label: Slideshow address item
+      type: TEXT
+      context: item
+      required: true
+      groupName: frame
+    - name: controlItem
+      label: Control item
+      type: TEXT
+      context: item
+      required: true
+      groupName: frame
+    - name: countItem
+      label: Pictures item
+      type: TEXT
+      context: item
+      required: true
+      groupName: frame
+    - name: currentImageItem
+      label: Current picture item
+      type: TEXT
+      context: item
+      required: true
+      groupName: frame
+    - name: nightItem
+      label: Night mode item
+      description: Optional, shows a switch for the night mode
+      type: TEXT
+      context: item
+      groupName: frame
+component: f7-card
+config:
+  style:
+    border-radius: 12px
+    padding: 4px 4px 8px
+slots:
+  default:
+    - component: f7-card-header
+      slots:
+        default:
+          - component: f7-row
+            config:
+              style:
+                width: 100%
+                align-items: center
+                flex-wrap: nowrap
+            slots:
+              default:
+                - component: f7-row
+                  config:
+                    style:
+                      align-items: center
+                      flex-wrap: nowrap
+                      gap: 10px
+                  slots:
+                    default:
+                      - component: f7-icon
+                        config:
+                          f7: photo_fill_on_rectangle_fill
+                          size: 26
+                          color: blue
+                      - component: Label
+                        config:
+                          text: =props.title || 'Photoframe'
+                          style:
+                            font-size: 18px
+                            font-weight: 600
+                - component: Label
+                  config:
+                    text: "=items[props.controlItem].state === 'PAUSE' ? (props.lang === 'de' ? 'Pause' : 'Paused') : (props.lang === 'de' ? 'Läuft' : 'Playing')"
+                    style:
+                      color: white
+                      font-size: 12px
+                      font-weight: 600
+                      padding: 3px 10px
+                      border-radius: 12px
+                      white-space: nowrap
+                      background: "=items[props.controlItem].state === 'PAUSE' ? 'var(--f7-color-orange)' : 'var(--f7-color-green)'"
+    - component: f7-card-content
+      config:
+        style:
+          padding-top: 0
+      slots:
+        default:
+          - component: f7-block
+            config:
+              visible: "=props.previewHeight !== 0 && !['NULL', 'UNDEF'].includes(items[props.urlItem].state)"
+              style:
+                margin: 0 0 8px
+                padding: 0
+                height: "=(props.previewHeight || 220) + 'px'"
+                overflow: hidden
+                border-radius: 8px
+                background: black
+            slots:
+              default:
+                - component: iframe
+                  config:
+                    src: =items[props.urlItem].state
+                    title: Slideshow
+                    style:
+                      width: 100%
+                      height: 100%
+                      border: 0
+                      pointer-events: none
+          - component: f7-row
+            config:
+              style:
+                padding: 6px 0
+                flex-wrap: nowrap
+                gap: 12px
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: "=props.lang === 'de' ? 'Aktuelles Bild' : 'Current picture'"
+                    style:
+                      opacity: 0.65
+                      white-space: nowrap
+                - component: Label
+                  config:
+                    text: "=['NULL', 'UNDEF'].includes(items[props.currentImageItem].state) ? '–' : items[props.currentImageItem].state"
+                    style:
+                      text-align: right
+                      font-weight: 500
+                      overflow: hidden
+                      text-overflow: ellipsis
+                      white-space: nowrap
+          - component: f7-row
+            config:
+              style:
+                padding: 6px 0
+                flex-wrap: nowrap
+                gap: 12px
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: "=props.lang === 'de' ? 'Bilder' : 'Pictures'"
+                    style:
+                      opacity: 0.65
+                - component: Label
+                  config:
+                    text: "=['NULL', 'UNDEF'].includes(items[props.countItem].state) ? '–' : items[props.countItem].state"
+                    style:
+                      font-weight: 500
+          - component: f7-row
+            config:
+              visible: =!!props.nightItem
+              style:
+                padding: 6px 0
+                flex-wrap: nowrap
+                gap: 12px
+                align-items: center
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: "=props.lang === 'de' ? 'Nachtmodus' : 'Night mode'"
+                    style:
+                      opacity: 0.65
+                - component: oh-toggle
+                  config:
+                    item: =props.nightItem
+          - component: f7-row
+            config:
+              style:
+                margin-top: 8px
+                flex-wrap: nowrap
+                gap: 8px
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    iconF7: backward_fill
+                    outline: true
+                    round: true
+                    action: command
+                    actionItem: =props.controlItem
+                    actionCommand: PREVIOUS
+                    style:
+                      flex: 1
+                - component: oh-button
+                  config:
+                    iconF7: "=items[props.controlItem].state === 'PAUSE' ? 'play_fill' : 'pause_fill'"
+                    outline: true
+                    round: true
+                    action: command
+                    actionItem: =props.controlItem
+                    actionCommand: "=items[props.controlItem].state === 'PAUSE' ? 'PLAY' : 'PAUSE'"
+                    style:
+                      flex: 1
+                - component: oh-button
+                  config:
+                    iconF7: forward_fill
+                    outline: true
+                    round: true
+                    action: command
+                    actionItem: =props.controlItem
+                    actionCommand: NEXT
+                    style:
+                      flex: 1
+    - component: f7-card-footer
+      config:
+        style:
+          justify-content: center
+          border-top: none
+      slots:
+        default:
+          - component: oh-button
+            config:
+              text: "=props.lang === 'de' ? 'Vollbild' : 'Full screen'"
+              iconF7: arrow_up_left_arrow_down_right
+              fill: true
+              round: true
+              color: blue
+              action: url
+              actionUrl: =items[props.urlItem].state
+              style:
+                width: 100%

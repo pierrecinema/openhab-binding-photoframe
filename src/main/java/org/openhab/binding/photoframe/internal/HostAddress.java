@@ -16,6 +16,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -27,7 +28,8 @@ import org.eclipse.jdt.annotation.Nullable;
  * Finds the address of openHAB as seen from the screens in the home network.
  * <p>
  * openHAB in Docker often reports a Docker network address (e.g. 172.26.0.1) as primary address, which tablets
- * cannot reach. Such addresses are skipped when a normal home network address (192.168.x.x, 10.x.x.x) exists.
+ * cannot reach. Docker networks can also use 192.168.x.x, so an address of a virtual network interface counts too.
+ * Such addresses are skipped when a normal home network address (192.168.x.x, 10.x.x.x) exists.
  *
  * @author Pierrecinema - Initial contribution
  */
@@ -35,7 +37,7 @@ import org.eclipse.jdt.annotation.Nullable;
 public final class HostAddress {
 
     private static final List<String> VIRTUAL_INTERFACES = List.of("docker", "br-", "veth", "virbr", "cni", "flannel",
-            "cali", "vmnet", "vboxnet", "tun", "tap", "wg", "zt", "lo");
+            "cali", "vmnet", "vboxnet", "tun", "tap", "wg", "zt", "tailscale", "lo");
 
     private HostAddress() {
     }
@@ -46,7 +48,7 @@ public final class HostAddress {
      * @param primary the primary address configured in / detected by openHAB, may be null
      */
     public static String find(@Nullable String primary) {
-        if (primary != null && !isDockerAddress(primary)) {
+        if (primary != null && !isDockerAddress(primary) && !isOnVirtualInterface(primary)) {
             return primary;
         }
         String lan = findLanAddress();
@@ -75,6 +77,15 @@ public final class HostAddress {
     static boolean isVirtualInterface(String name) {
         String lower = name.toLowerCase(Locale.ROOT);
         return VIRTUAL_INTERFACES.stream().anyMatch(lower::startsWith);
+    }
+
+    private static boolean isOnVirtualInterface(String address) {
+        try {
+            NetworkInterface nic = NetworkInterface.getByInetAddress(InetAddress.getByName(address));
+            return nic != null && isVirtualInterface(nic.getName());
+        } catch (UnknownHostException | SocketException e) {
+            return false;
+        }
     }
 
     private static @Nullable String findLanAddress() {

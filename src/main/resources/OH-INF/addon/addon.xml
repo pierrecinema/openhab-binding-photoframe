@@ -5,7 +5,7 @@
 
 	<type>binding</type>
 	<name>Photoframe Binding</name>
-	<description>Digital photo frame and tablet screensaver with pictures from a local folder, Google Drive or Dropbox.</description>
+	<description>Digital photo frame and tablet screensaver with pictures from a local folder or a shared Dropbox folder.</description>
 	<connection>hybrid</connection>
 
 </addon:addon>
