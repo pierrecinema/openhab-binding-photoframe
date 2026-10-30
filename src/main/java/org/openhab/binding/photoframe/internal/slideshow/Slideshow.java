@@ -44,6 +44,7 @@ public class Slideshow {
     private final Random random;
 
     private List<SourceImage> sequence = new ArrayList<>();
+    private List<SourceImage> previousRound = new ArrayList<>();
     private int position;
     private boolean paused;
     private long changeCounter;
@@ -89,6 +90,7 @@ public class Slideshow {
             Collections.shuffle(rest, random);
             shown.addAll(rest);
             sequence = shown;
+            previousRound = new ArrayList<>();
         } else {
             return;
         }
@@ -130,6 +132,10 @@ public class Slideshow {
         if (sequence.isEmpty()) {
             return;
         }
+        if (position == 0 && !previousRound.isEmpty()) {
+            sequence = previousRound;
+            previousRound = new ArrayList<>();
+        }
         position = position > 0 ? position - 1 : sequence.size() - 1;
         changeCounter++;
     }
@@ -165,6 +171,7 @@ public class Slideshow {
             if (next.get(0).id().equals(last.id())) {
                 Collections.swap(next, 0, 1 + random.nextInt(next.size() - 1));
             }
+            previousRound = sequence;
             sequence = next;
         }
         position = 0;

@@ -178,7 +178,7 @@ Trage in der **Tipp-Adresse** (erweitert) die Adresse für dein Gerät ein:
 ### Tipp öffnet openHAB über der Diashow
 
 Ist die Tipp-Adresse eine Seite desselben openHAB, öffnet sie sich im Vollbild über der Diashow.
-Ohne Berührung kehrt die Diashow nach **Zurück zur Diashow** (Standard 120 Sekunden) von selbst zurück. Das ✕ unten links geht sofort zurück.
+Ohne Berührung kehrt die Diashow nach **Zurück zur Diashow** (Standard 120 Sekunden) von selbst zurück. Das ✕ unten links geht sofort zurück. Es verschwindet nach 6 Sekunden, damit es openHAB nicht verdeckt. Steht **Zurück zur Diashow** auf 0, bleibt es stehen.
 
 Jeder Bildschirm kann eine eigene Tipp-Adresse haben: Hänge `&tap=` mit der URL-kodierten Adresse an, optional auch `&return=60`.
 

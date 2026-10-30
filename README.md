@@ -309,7 +309,7 @@ The screensaver of the openHAB Android app shows only the text of an item, not a
 Set the **Tap Address** to a page of the same openHAB, e.g. `http://192.168.1.10:8080/`.
 A tap then opens openHAB in full screen on top of the slideshow. As long as you use it, it stays open;
 after **Return to Slideshow** seconds (advanced, default 120) without touch the slideshow comes back by itself.
-The ✕ button at the bottom left returns at once.
+The ✕ button at the bottom left returns at once. It disappears after 6 seconds, so it does not cover openHAB; with **Return to Slideshow** set to 0 it stays.
 
 This works in every browser, also as home screen web app on an iPad, and does not need a kiosk app.
 

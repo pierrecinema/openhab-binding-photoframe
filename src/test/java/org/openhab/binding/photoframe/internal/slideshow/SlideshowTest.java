@@ -116,6 +116,20 @@ class SlideshowTest {
     }
 
     @Test
+    void previousReturnsToTheRoundBefore() {
+        Slideshow show = new Slideshow(Slideshow.Order.RANDOM, new Random(7));
+        show.setImages(images(6));
+        for (int i = 0; i < 5; i++) {
+            show.next();
+        }
+        SourceImage last = show.current();
+        assertNotNull(last);
+        show.next();
+        show.previous();
+        assertEquals(last, show.current(), "previous after a new round shows the last picture of the old round");
+    }
+
+    @Test
     void naturalOrder() {
         assertTrue(NaturalOrder.compare("2.jpg", "10.jpg") < 0);
         assertTrue(NaturalOrder.compare("img2", "img10") < 0);
