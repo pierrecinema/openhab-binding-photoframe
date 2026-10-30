@@ -178,9 +178,19 @@ Trage in der **Tipp-Adresse** (erweitert) die Adresse für dein Gerät ein:
 ### Tipp öffnet openHAB über der Diashow
 
 Ist die Tipp-Adresse eine Seite desselben openHAB, öffnet sie sich im Vollbild über der Diashow.
-Ohne Berührung kehrt die Diashow nach **Zurück zur Diashow** (Standard 120 Sekunden) von selbst zurück. Das ✕ unten rechts geht sofort zurück.
+Ohne Berührung kehrt die Diashow nach **Zurück zur Diashow** (Standard 120 Sekunden) von selbst zurück. Das ✕ unten links geht sofort zurück.
 
 Jeder Bildschirm kann eine eigene Tipp-Adresse haben: Hänge `&tap=` mit der URL-kodierten Adresse an, optional auch `&return=60`.
+
+### Diashow nach einer Zeit ohne Eingabe
+
+Die Main UI und die openHAB-Apps erkennen keine Leerlaufzeit, eine Seite kann die Diashow also nicht von selbst starten.
+Dreh es deshalb um und mach die Diashow zur Startseite. Ein Tipp öffnet openHAB darüber, und ohne Berührung ist die Diashow nach **Zurück zur Diashow** wieder da.
+
+1. Lege die Vollbild-Seite aus Abschnitt 8 an, mit `&tap=%2F` in der Adresse.
+1. Stelle diese Seite auf dem Gerät als Startseite ein, in der Main UI oder in der openHAB-App.
+
+Die Zeit stellst du mit **Zurück zur Diashow** (erweitert) ein oder mit `&return=60` in der Adresse der Seite.
 
 ### iPad, ohne Kiosk-App
 

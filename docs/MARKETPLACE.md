@@ -42,6 +42,9 @@ Tested on Android with Fully Kiosk Browser, in Android browsers, and on an iPad 
 
 ## Changelog
 
+### Version 0.0.10
+- Close button moved to the bottom left
+
 ### Version 0.0.9
 - Wrong Docker address in 192.168.x.x networks fixed
 - App addresses open from a slideshow embedded in a page
@@ -53,7 +56,7 @@ Documentation: https://github.com/pierrecinema/openhab-binding-photoframe
 Widget: https://github.com/pierrecinema/openhab-binding-photoframe/blob/main/widgets/photoframe_card.yaml
 Source: https://github.com/pierrecinema/openhab-binding-photoframe
 
-https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.9/org.openhab.binding.photoframe-0.0.9.jar
+https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.10/org.openhab.binding.photoframe-0.0.10.jar
 ```
 
 Update the version in the changelog and in the last line for each new release.
