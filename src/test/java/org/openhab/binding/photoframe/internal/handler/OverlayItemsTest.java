@@ -20,6 +20,8 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.junit.jupiter.api.Test;
 import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.library.types.QuantityType;
+import org.openhab.core.library.types.StringType;
+import org.openhab.core.types.StateOption;
 import org.openhab.core.types.UnDefType;
 
 /**
@@ -55,5 +57,14 @@ class OverlayItemsTest {
         assertEquals("42", PhotoFrameHandler.formatState(new DecimalType(42), null));
         assertEquals("–", PhotoFrameHandler.formatState(UnDefType.NULL, "%.1f"));
         assertEquals("7", PhotoFrameHandler.formatState(new DecimalType(7), "%s %d broken"));
+    }
+
+    @Test
+    void optionsGiveTheTextOfAState() {
+        List<StateOption> options = List.of(new StateOption("FULL", "Vollmond"),
+                new StateOption("WANING_GIBBOUS", "Abnehmender Mond"));
+
+        assertEquals("Abnehmender Mond", PhotoFrameHandler.optionLabel(new StringType("WANING_GIBBOUS"), options));
+        assertNull(PhotoFrameHandler.optionLabel(new StringType("NEW"), options));
     }
 }

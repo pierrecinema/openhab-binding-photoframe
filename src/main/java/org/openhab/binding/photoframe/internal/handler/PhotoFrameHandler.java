@@ -70,6 +70,7 @@ import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
 import org.openhab.core.types.State;
 import org.openhab.core.types.StateDescription;
+import org.openhab.core.types.StateOption;
 import org.openhab.core.types.UnDefType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -436,9 +437,26 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
         return state.toString();
     }
 
+    /**
+     * Returns the text of the item for its state, e.g. "Waning gibbous" for WANING_GIBBOUS, as openHAB shows it.
+     */
+    static @Nullable String optionLabel(State state, List<StateOption> options) {
+        String value = state.toString();
+        for (StateOption option : options) {
+            if (option.getValue().equals(value)) {
+                return option.getLabel();
+            }
+        }
+        return null;
+    }
+
     private static String format(Item item) {
         StateDescription description = item.getStateDescription();
-        return formatState(item.getState(), description != null ? description.getPattern() : null);
+        if (description == null) {
+            return formatState(item.getState(), null);
+        }
+        String label = optionLabel(item.getState(), description.getOptions());
+        return label != null ? label : formatState(item.getState(), description.getPattern());
     }
 
     // --- helpers -------------------------------------------------------------------------------------------

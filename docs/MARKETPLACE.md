@@ -46,6 +46,9 @@ Tested on Android with Fully Kiosk Browser, in Android browsers, and on an iPad 
 
 ## Changelog
 
+### Version 0.0.14
+- Overlay items show the text of their state instead of the raw value
+
 ### Version 0.0.13
 - Choose the Main UI page or sitemap opened by a tap from a list
 
@@ -67,7 +70,7 @@ Documentation: https://github.com/pierrecinema/openhab-binding-photoframe
 Widget: https://github.com/pierrecinema/openhab-binding-photoframe/blob/main/widgets/photoframe_card.yaml
 Source: https://github.com/pierrecinema/openhab-binding-photoframe
 
-https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.13/org.openhab.binding.photoframe-0.0.13.jar
+https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.14/org.openhab.binding.photoframe-0.0.14.jar
 ```
 
 Update the version in the changelog and in the last line for each new release.

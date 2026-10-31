@@ -285,6 +285,7 @@ Geschätzter Aufwand: etwa 4–5 Arbeitstage.
 | 0.0.11 | – | Schließen-Taste verschwindet nach 6 Sekunden, Zurück am Rundenanfang korrigiert |
 | 0.0.12 | – | Seite beim Tippen (`tapPage`), Liste blieb auf openHAB 5.2 leer |
 | 0.0.13 | – | Liste der Main-UI-Seiten und Sitemaps funktioniert auf allen 5.x, neue Einleitung |
+| 0.0.14 | – | Einblendungen zeigen den Text aus den Zustandsoptionen eines Items statt des Rohwerts |
 | offen | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
 | offen | M3 | Google Drive (Link + API-Key) |
 | **0.1.0** | M6 | erste Version für Beta-Tester |
