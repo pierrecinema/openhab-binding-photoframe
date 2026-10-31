@@ -28,6 +28,8 @@ Stay in your app. Pictures from a folder run as a full-screen slideshow right wh
 ![With weather, clock and item values](https://raw.githubusercontent.com/pierrecinema/openhab-binding-photoframe/main/docs/images/slideshow.png)
 ![Only the clock](https://raw.githubusercontent.com/pierrecinema/openhab-binding-photoframe/main/docs/images/slideshow-clock-only.png)
 ![Portrait picture with blurred background](https://raw.githubusercontent.com/pierrecinema/openhab-binding-photoframe/main/docs/images/slideshow-portrait.png)
+![Thing configuration](https://github.com/pierrecinema/openhab-binding-photoframe/blob/main/docs/images/thing-configuration.png?raw=true)
+![Overlay settings](https://github.com/pierrecinema/openhab-binding-photoframe/blob/main/docs/images/thing-configuration-overlays.png?raw=true)
 
 ---
 
