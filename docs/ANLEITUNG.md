@@ -16,9 +16,9 @@ Benötigt **openHAB 5.0 oder neuer**. Auf openHAB 4.x startet das Binding nicht.
 |---|---|
 | ![Diashow mit Einblendungen](images/slideshow.png) | ![Diashow nur mit Uhr](images/slideshow-clock-only.png) |
 
-| Hochformat mit unscharfem Hintergrund | Querformat | Thing-Einstellungen |
+| Hochformat mit unscharfem Hintergrund | Dashboard-Widget | Thing-Einstellungen |
 |---|---|---|
-| ![Hochformat](images/slideshow-portrait.png) | ![Querformat](images/slideshow-landscape.png) | ![Thing-Einstellungen](images/thing-configuration.png) ![Einblendungen](images/thing-configuration-overlays.png) |
+| ![Hochformat](images/slideshow-portrait.png) | ![Dashboard-Widget](images/widget-photoframe-card.png) | ![Thing-Einstellungen](images/thing-configuration.png) ![Einblendungen](images/thing-configuration-overlays.png) |
 
 Die vollständige Referenz aller Einstellungen steht auf Englisch in der [README](../README.md).
 
