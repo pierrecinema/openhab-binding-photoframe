@@ -200,6 +200,7 @@ Im Nachtmodus wechseln keine Bilder und es wird nichts geladen. Tippen auf den B
 | `nightEnd` | Text `HH:mm` | `06:30` | Ende Nachtmodus |
 | `maxSize` | Zahl (px) | 1920 | längste Bildkante (erweitert) |
 | `refreshMinutes` | Zahl (min) | 5 lokal / 15 Google / 60 Dropbox-Link / 15 Dropbox | Ordner neu einlesen (erweitert) |
+| `tapPage` | Auswahl | leer | Main-UI-Seite oder Sitemap, die sich beim Tippen über der Diashow öffnet; Vorrang vor `tapUrl` |
 | `tapUrl` | Text | leer | Adresse, die beim Tippen geöffnet wird (erweitert) |
 | `cacheSizeMb` | Zahl | 500 | Cache-Grenze (erweitert) |
 
@@ -282,6 +283,7 @@ Geschätzter Aufwand: etwa 4–5 Arbeitstage.
 | 0.0.9 | M6 (Teil) | Widget, vollständige Anleitungen, Vollbild-Seite, Korrekturen an Adresse und App-Adressen |
 | 0.0.10 | – | Schließen-Taste unten links, Anleitung für die Rückkehr nach Leerlauf |
 | 0.0.11 | – | Schließen-Taste verschwindet nach 6 Sekunden, Zurück am Rundenanfang korrigiert |
+| 0.0.12 | – | Seite beim Tippen aus einer Liste der Main-UI-Seiten und Sitemaps wählen (`tapPage`) |
 | offen | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
 | offen | M3 | Google Drive (Link + API-Key) |
 | **0.1.0** | M6 | erste Version für Beta-Tester |

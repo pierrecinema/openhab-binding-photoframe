@@ -100,6 +100,7 @@ Supported picture formats: JPEG, PNG, GIF and BMP. Subfolders are not read.
 | `kenBurns`          | boolean | Slowly zoom and pan while a picture is shown                                | true     | no       | no       |
 | `fitMode`           | text    | `BLUR` (fit, blurred background), `FIT` (black borders), `FILL` (crop), `AUTO` | `BLUR` | no       | no       |
 | `maxSize`           | integer | Longest side of the pictures sent to the screen (640 to 4096)               | 1920     | no       | yes      |
+| `tapPage`           | text    | Main UI page or sitemap opened on top of the slideshow by a tap, chosen from a list; takes priority over `tapUrl` | (empty) | no | no |
 | `tapUrl`            | text    | Address opened by a tap, empty switches to full screen                      | (empty)  | no       | yes      |
 | `returnSeconds`     | integer | Seconds without touch until the slideshow returns over an openHAB page, 0 keeps the page open | 120 | no | yes |
 | `baseUrl`           | text    | Address of openHAB as seen from the screens, empty detects it               | (empty)  | no       | yes      |
@@ -273,6 +274,7 @@ slots:
 ```
 
 `&tap=%2F` opens openHAB on top of the slideshow when the page is tapped.
+To use **Page on Tap** instead, leave `&tap=%2F` out, because `&tap=` overrides the settings of the thing.
 With a pinned Main UI sidebar on a large screen, the sidebar stays above the left part of the picture.
 The page uses a plain HTML element that is not an official Main UI component, so it may need a change after an openHAB update.
 
@@ -306,8 +308,8 @@ The screensaver of the openHAB Android app shows only the text of an item, not a
 
 ### Tap Opens openHAB on Top of the Slideshow
 
-Set the **Tap Address** to a page of the same openHAB, e.g. `http://192.168.1.10:8080/`.
-A tap then opens openHAB in full screen on top of the slideshow. As long as you use it, it stays open;
+Choose a Main UI page or a sitemap in **Page on Tap**, no address is needed. Sitemaps open in Basic UI. Or set the **Tap Address** (advanced) to a page of the same openHAB, e.g. `http://192.168.1.10:8080/`.
+A tap then opens this page in full screen on top of the slideshow. As long as you use it, it stays open;
 after **Return to Slideshow** seconds (advanced, default 120) without touch the slideshow comes back by itself.
 The ✕ button at the bottom left returns at once. It disappears after 6 seconds, so it does not cover openHAB; with **Return to Slideshow** set to 0 it stays.
 

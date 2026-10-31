@@ -177,10 +177,10 @@ Trage in der **Tipp-Adresse** (erweitert) die Adresse für dein Gerät ein:
 
 ### Tipp öffnet openHAB über der Diashow
 
-Ist die Tipp-Adresse eine Seite desselben openHAB, öffnet sie sich im Vollbild über der Diashow.
+Wähle im Thing bei **Seite beim Tippen** eine Main-UI-Seite oder eine Sitemap aus der Liste, eine Adresse brauchst du dafür nicht. Sitemaps öffnen sich in der Basic UI. Diese Seite öffnet sich beim Tippen im Vollbild über der Diashow. Dasselbe gilt für eine Tipp-Adresse, die auf eine Seite desselben openHAB zeigt.
 Ohne Berührung kehrt die Diashow nach **Zurück zur Diashow** (Standard 120 Sekunden) von selbst zurück. Das ✕ unten links geht sofort zurück. Es verschwindet nach 6 Sekunden, damit es openHAB nicht verdeckt. Steht **Zurück zur Diashow** auf 0, bleibt es stehen.
 
-Jeder Bildschirm kann eine eigene Tipp-Adresse haben: Hänge `&tap=` mit der URL-kodierten Adresse an, optional auch `&return=60`.
+Jeder Bildschirm kann eine eigene Tipp-Adresse haben: Hänge `&tap=` mit der URL-kodierten Adresse an, optional auch `&return=60`. `&tap=` hat Vorrang vor den Einstellungen im Thing. Soll **Seite beim Tippen** gelten, darf `&tap=` also nicht in der Adresse stehen, auch nicht in der Vollbild-Seite aus Abschnitt 8.
 
 ### Diashow nach einer Zeit ohne Eingabe
 

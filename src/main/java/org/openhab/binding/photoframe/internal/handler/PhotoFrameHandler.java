@@ -377,7 +377,8 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
         state.settings.fitMode = config.fitMode;
         state.settings.clock = config.clock;
         state.settings.nightMode = "OFF".equals(config.nightMode) ? "BLACK" : config.nightMode;
-        state.settings.tapUrl = config.tapUrl.isBlank() ? null : config.tapUrl.trim();
+        String tapTarget = config.tapPage.isBlank() ? config.tapUrl : config.tapPage;
+        state.settings.tapUrl = tapTarget.isBlank() ? null : tapTarget.trim();
         state.settings.returnSeconds = Math.max(0, config.returnSeconds);
         state.overlay = overlayValues();
         return gson.toJson(state);

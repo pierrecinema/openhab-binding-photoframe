@@ -121,6 +121,11 @@
 				<default>1920</default>
 				<advanced>true</advanced>
 			</parameter>
+			<parameter name="tapPage" type="text" groupName="slideshow">
+				<label>Page on Tap</label>
+				<description>Main UI page or sitemap that opens on top of the slideshow when it is tapped. Takes priority over the
+					tap address.</description>
+			</parameter>
 			<parameter name="tapUrl" type="text" groupName="slideshow">
 				<!-- no url context: Android app addresses such as intent://… must be accepted too -->
 				<label>Tap Address</label>

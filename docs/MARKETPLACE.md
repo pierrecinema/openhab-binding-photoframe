@@ -42,6 +42,9 @@ Tested on Android with Fully Kiosk Browser, in Android browsers, and on an iPad 
 
 ## Changelog
 
+### Version 0.0.12
+- Choose the Main UI page or sitemap opened by a tap from a list
+
 ### Version 0.0.11
 - Close button disappears after 6 seconds
 - Previous picture is correct at the start of a new round
@@ -60,7 +63,7 @@ Documentation: https://github.com/pierrecinema/openhab-binding-photoframe
 Widget: https://github.com/pierrecinema/openhab-binding-photoframe/blob/main/widgets/photoframe_card.yaml
 Source: https://github.com/pierrecinema/openhab-binding-photoframe
 
-https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.11/org.openhab.binding.photoframe-0.0.11.jar
+https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.12/org.openhab.binding.photoframe-0.0.12.jar
 ```
 
 Update the version in the changelog and in the last line for each new release.

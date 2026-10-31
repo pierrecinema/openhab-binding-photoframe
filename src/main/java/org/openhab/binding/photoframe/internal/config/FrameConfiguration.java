@@ -43,6 +43,8 @@ public class FrameConfiguration {
     public boolean kenBurns = true;
     public String fitMode = "BLUR";
     public int maxSize = 1920;
+    /** Main UI page opened by a tap, as address on this server; takes priority over {@link #tapUrl}. */
+    public String tapPage = "";
     public String tapUrl = "";
     /** Seconds without touch after which a page opened on tap closes again, 0 = stays open. */
     public int returnSeconds = 120;
