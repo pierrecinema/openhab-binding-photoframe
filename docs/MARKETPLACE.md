@@ -25,7 +25,9 @@ Title: `Photoframe Binding: photo frame inside the openHAB app, no kiosk app nee
 ```markdown
 ![Logo](https://raw.githubusercontent.com/pierrecinema/openhab-binding-photoframe/main/docs/images/logo.png)
 
-![Slideshow](https://raw.githubusercontent.com/pierrecinema/openhab-binding-photoframe/main/docs/images/slideshow.png)
+![Slideshow with weather, clock and item values](https://raw.githubusercontent.com/pierrecinema/openhab-binding-photoframe/main/docs/images/slideshow.png)
+
+![Slideshow with the clock only](https://raw.githubusercontent.com/pierrecinema/openhab-binding-photoframe/main/docs/images/slideshow-clock-only.png)
 
 ## Your photo frame inside the openHAB app: Android, iOS or browser, no kiosk app needed
 

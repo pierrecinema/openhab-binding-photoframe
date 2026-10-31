@@ -12,7 +12,9 @@ Alles läuft im Binding selbst: keine Skripte, kein ImageMagick, keine Cron-Jobs
 
 Benötigt **openHAB 5.0 oder neuer**. Auf openHAB 4.x startet das Binding nicht.
 
-![Diashow mit Wetter, Uhr und Item-Werten](images/slideshow.png)
+| Mit Wetter, Uhr und Item-Werten | Nur mit Uhr |
+|---|---|
+| ![Diashow mit Einblendungen](images/slideshow.png) | ![Diashow nur mit Uhr](images/slideshow-clock-only.png) |
 
 | Hochformat mit unscharfem Hintergrund | Thing-Einstellungen | Dashboard-Widget |
 |---|---|---|

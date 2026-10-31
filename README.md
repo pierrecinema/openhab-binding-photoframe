@@ -23,7 +23,9 @@ Everything runs inside the binding: no scripts, no ImageMagick, no cron jobs, no
 
 The binding requires **openHAB 5.0 or later**. It does not start on openHAB 4.x.
 
-![Slideshow with weather, clock and item values](docs/images/slideshow.png)
+| With weather, clock and item values | Only the clock |
+|---|---|
+| ![Slideshow with overlays](docs/images/slideshow.png) | ![Slideshow with the clock only](docs/images/slideshow-clock-only.png) |
 
 | Portrait picture with blurred background | Thing configuration | Dashboard widget |
 |---|---|---|
