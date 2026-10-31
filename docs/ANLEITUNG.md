@@ -114,7 +114,8 @@ Im Thing unter **Diashow**, **Einblendungen** und **Nachtmodus** stellst du alle
 | Ken-Burns-Effekt | Langsames Zoomen und Schwenken während der Anzeige |
 | Anpassung | Unscharfer Hintergrund, schwarze Ränder, Bildschirm füllen, Automatisch |
 | Uhr | Keine, Zeit, Zeit und Datum |
-| Einblend-Items | Bis zu 4 Items, zum Beispiel Temperaturen |
+| Einblend-Items | Bis zu 4 Items, zum Beispiel Temperaturen; Bild-Items erscheinen als Bild |
+| Wetter | Wetter-Icon, Wetter-Temperatur und Wetterlage als Block links unten, mit den Items deines Wetterdienstes |
 | Bildunterschrift | Keine oder Dateiname |
 | Nachtmodus | Aus, schwarz, gedimmte Bilder, schwarz mit gedimmter Uhr, mit Start- und Endzeit |
 

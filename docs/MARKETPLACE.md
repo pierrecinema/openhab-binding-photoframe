@@ -36,7 +36,7 @@ Stay in your app. The slideshow runs full screen right where you use openHAB, in
 - One folder = one photo frame: the binding creates the folder, you put pictures in
 - Local folder or shared Dropbox folder
 - Transitions, Ken Burns effect, blurred background for pictures that do not fit the screen
-- Clock, date and item values on the pictures
+- Clock, date, weather with icon and item values on the pictures
 - Night mode
 - All screens show the same picture, with play, pause, next and previous from openHAB
 - A tap opens openHAB on top of the slideshow, or the openHAB app
@@ -45,6 +45,9 @@ Stay in your app. The slideshow runs full screen right where you use openHAB, in
 Tested on Android with Fully Kiosk Browser, in Android browsers, and on an iPad with iOS 15.
 
 ## Changelog
+
+### Version 0.0.15
+- Weather block at the bottom left with icon, temperature and condition
 
 ### Version 0.0.14
 - Overlay items show the text of their state instead of the raw value
@@ -70,7 +73,7 @@ Documentation: https://github.com/pierrecinema/openhab-binding-photoframe
 Widget: https://github.com/pierrecinema/openhab-binding-photoframe/blob/main/widgets/photoframe_card.yaml
 Source: https://github.com/pierrecinema/openhab-binding-photoframe
 
-https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.14/org.openhab.binding.photoframe-0.0.14.jar
+https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.15/org.openhab.binding.photoframe-0.0.15.jar
 ```
 
 Update the version in the changelog and in the last line for each new release.

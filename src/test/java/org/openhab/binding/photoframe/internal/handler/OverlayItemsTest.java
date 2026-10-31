@@ -20,6 +20,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.junit.jupiter.api.Test;
 import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.library.types.QuantityType;
+import org.openhab.core.library.types.RawType;
 import org.openhab.core.library.types.StringType;
 import org.openhab.core.types.StateOption;
 import org.openhab.core.types.UnDefType;
@@ -66,5 +67,12 @@ class OverlayItemsTest {
 
         assertEquals("Abnehmender Mond", PhotoFrameHandler.optionLabel(new StringType("WANING_GIBBOUS"), options));
         assertNull(PhotoFrameHandler.optionLabel(new StringType("NEW"), options));
+    }
+
+    @Test
+    void imageItemsBecomeDataAddresses() {
+        assertEquals("data:image/png;base64,AQID",
+                PhotoFrameHandler.imageData(new RawType(new byte[] { 1, 2, 3 }, "image/png")));
+        assertNull(PhotoFrameHandler.imageData(new StringType("Bewölkt")));
     }
 }

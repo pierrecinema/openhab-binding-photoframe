@@ -170,6 +170,24 @@
 				<limitToOptions>false</limitToOptions>
 				<multipleLimit>4</multipleLimit>
 			</parameter>
+			<parameter name="weatherIconItem" type="text" groupName="overlay">
+				<context>item</context>
+				<label>Weather Icon</label>
+				<description>Image item with the weather icon, shown at the bottom left.</description>
+				<limitToOptions>false</limitToOptions>
+			</parameter>
+			<parameter name="weatherTemperatureItem" type="text" groupName="overlay">
+				<context>item</context>
+				<label>Weather Temperature</label>
+				<description>Item with the temperature, shown large at the bottom left.</description>
+				<limitToOptions>false</limitToOptions>
+			</parameter>
+			<parameter name="weatherTextItem" type="text" groupName="overlay">
+				<context>item</context>
+				<label>Weather Condition</label>
+				<description>Item with the weather as text, shown below the temperature.</description>
+				<limitToOptions>false</limitToOptions>
+			</parameter>
 			<parameter name="caption" type="text" groupName="overlay">
 				<label>Caption</label>
 				<options>

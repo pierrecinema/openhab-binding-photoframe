@@ -59,6 +59,7 @@ import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.library.types.NextPreviousType;
 import org.openhab.core.library.types.OnOffType;
 import org.openhab.core.library.types.PlayPauseType;
+import org.openhab.core.library.types.RawType;
 import org.openhab.core.library.types.StringType;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.Thing;
@@ -382,6 +383,7 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
         state.settings.tapUrl = tapTarget.isBlank() ? null : tapTarget.trim();
         state.settings.returnSeconds = Math.max(0, config.returnSeconds);
         state.overlay = overlayValues();
+        state.weather = weatherValues();
         return gson.toJson(state);
     }
 
@@ -416,11 +418,40 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
     private FrameState.Overlay overlayValue(String itemName) {
         try {
             Item item = itemRegistry.getItem(itemName);
+            String image = imageData(item.getState());
+            if (image != null) {
+                return new FrameState.Overlay(image);
+            }
             String label = item.getLabel();
             return new FrameState.Overlay(label != null ? label : itemName, format(item));
         } catch (ItemNotFoundException e) {
             return new FrameState.Overlay(itemName, "?");
         }
+    }
+
+    private FrameState.@Nullable Weather weatherValues() {
+        Item icon = weatherItem(config.weatherIconItem);
+        Item temperature = weatherItem(config.weatherTemperatureItem);
+        Item text = weatherItem(config.weatherTextItem);
+        if (icon == null && temperature == null && text == null) {
+            return null;
+        }
+        FrameState.Weather weather = new FrameState.Weather();
+        weather.icon = icon != null ? imageData(icon.getState()) : null;
+        weather.temperature = temperature != null ? format(temperature) : null;
+        weather.text = text != null ? format(text) : null;
+        return weather;
+    }
+
+    private @Nullable Item weatherItem(String itemName) {
+        return itemName.isBlank() ? null : itemRegistry.get(itemName.trim());
+    }
+
+    /**
+     * Returns the picture of an image item as data address for an img element, null for any other state.
+     */
+    static @Nullable String imageData(State state) {
+        return state instanceof RawType picture ? picture.toFullString() : null;
     }
 
     static String formatState(State state, @Nullable String pattern) {

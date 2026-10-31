@@ -14,7 +14,7 @@ Everything runs inside the binding: no scripts, no ImageMagick, no cron jobs, no
 - Pictures from a local folder or a shared Dropbox folder
 - Transitions (fade, slide, wipe, zoom), Ken Burns effect
 - Blurred background for pictures that do not fit the screen format, correct orientation (EXIF)
-- Overlays: clock, date, item values such as temperatures, caption from the file name
+- Overlays: clock, date, weather with icon, item values such as temperatures, caption from the file name
 - Night mode: black screen, dimmed pictures, or black with a dimmed clock
 - All screens show the same picture; play, pause, next and previous from openHAB
 - A tap opens openHAB on top of the slideshow, or another app, and the slideshow returns by itself
@@ -116,7 +116,10 @@ Supported picture formats: JPEG, PNG, GIF and BMP. Subfolders are not read.
 | Name           | Type | Description                                                  | Default | Required | Advanced |
 |----------------|------|--------------------------------------------------------------|---------|----------|----------|
 | `clock`        | text | `NONE`, `TIME` or `TIME_DATE`                                | `NONE`  | no       | no       |
-| `overlayItems` | text | Up to 4 items whose label and value are shown on the picture | (empty) | no       | no       |
+| `overlayItems` | text | Up to 4 items whose label and value are shown on the picture; image items are shown as picture | (empty) | no | no |
+| `weatherIconItem` | text | Image item with the weather icon, shown at the bottom left | (empty) | no | no |
+| `weatherTemperatureItem` | text | Item with the temperature, shown large at the bottom left | (empty) | no | no |
+| `weatherTextItem` | text | Item with the weather as text, shown below the temperature | (empty) | no | no |
 | `caption`      | text | `NONE` or `FILENAME`                                         | `NONE`  | no       | no       |
 
 ### Night Mode

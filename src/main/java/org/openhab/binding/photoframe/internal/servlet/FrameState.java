@@ -35,6 +35,7 @@ public class FrameState {
     public @Nullable Picture upcoming;
     public Settings settings = new Settings();
     public List<Overlay> overlay = new ArrayList<>();
+    public @Nullable Weather weather;
 
     public static class Picture {
         public String key;
@@ -63,10 +64,26 @@ public class FrameState {
     public static class Overlay {
         public String label;
         public String value;
+        /** Picture of an image item as data address, instead of a text value. */
+        public @Nullable String image;
 
         public Overlay(String label, String value) {
             this.label = label;
             this.value = value;
         }
+
+        public Overlay(String image) {
+            this("", "");
+            this.image = image;
+        }
+    }
+
+    /**
+     * The weather block next to the clock. Every part is optional.
+     */
+    public static class Weather {
+        public @Nullable String icon;
+        public @Nullable String temperature;
+        public @Nullable String text;
     }
 }

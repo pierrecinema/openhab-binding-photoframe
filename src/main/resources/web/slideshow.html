@@ -31,6 +31,13 @@
   #overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: 48px 4vw 3vh; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
              background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0)); pointer-events: none; text-shadow: 0 1px 4px rgba(0,0,0,0.7); }
   #overlay.empty { display: none; }
+  #left { min-width: 0; }
+  #weather { display: none; align-items: center; }
+  #weather.on { display: flex; }
+  #weatherIcon { display: none; width: 8vw; height: 8vw; width: clamp(48px, 8vw, 112px); height: clamp(48px, 8vw, 112px); object-fit: contain; margin-right: 1.2vw; }
+  #weatherIcon.on { display: block; }
+  #weatherTemp { font-size: 6vw; font-size: clamp(28px, 6vw, 80px); font-weight: 300; line-height: 1; white-space: nowrap; }
+  #weatherText { font-size: 1.8vw; font-size: clamp(14px, 1.8vw, 24px); opacity: 0.9; margin-top: 6px; }
   #caption { font-size: 2.6vw; font-size: clamp(16px, 2.6vw, 34px); font-weight: 500; }
   #info { text-align: right; }
   #clock { font-size: 6vw; font-size: clamp(28px, 6vw, 80px); font-weight: 300; line-height: 1; }
@@ -38,6 +45,7 @@
   #items { font-size: 1.9vw; font-size: clamp(14px, 1.9vw, 26px); margin-top: 8px; }
   #items span { margin-left: 1.2em; white-space: nowrap; }
   #items small { opacity: 0.75; margin-right: 0.35em; }
+  #items img { height: 1.6em; vertical-align: middle; }
   #night { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity 2s; display: flex; align-items: center; justify-content: center; }
   #night.on { opacity: 1; }
   #night.dim { background: rgba(0,0,0,0.85); }
@@ -56,7 +64,10 @@
 <div class="slide" id="slideA"><img class="bg" alt=""><img class="fg" alt=""></div>
 <div class="slide" id="slideB"><img class="bg" alt=""><img class="fg" alt=""></div>
 <div id="overlay" class="empty">
-  <div id="caption"></div>
+  <div id="left">
+    <div id="weather"><img id="weatherIcon" alt=""><div><div id="weatherTemp"></div><div id="weatherText"></div></div></div>
+    <div id="caption"></div>
+  </div>
   <div id="info"><div id="clock"></div><div id="date"></div><div id="items"></div></div>
 </div>
 <div id="message"></div>
@@ -287,19 +298,48 @@
   }
 
   // --- overlays --------------------------------------------------------------------------------------------
-  function updateOverlay() {
-    var s = state.settings;
-    var items = state.overlay || [];
+  var shownItems = null;
+  function updateItems(items) {
+    // Rebuilt only on a change, so pictures do not flicker with every state update
+    var key = JSON.stringify(items);
+    if (key === shownItems) { return; }
+    shownItems = key;
     var box = $('items');
     box.textContent = '';
     items.forEach(function (it) {
       var span = document.createElement('span');
-      if (it.label) { var l = document.createElement('small'); l.textContent = it.label; span.appendChild(l); }
-      span.appendChild(document.createTextNode(it.value));
+      if (it.image) {
+        var picture = document.createElement('img');
+        picture.alt = '';
+        picture.src = it.image;
+        span.appendChild(picture);
+      } else {
+        if (it.label) { var l = document.createElement('small'); l.textContent = it.label; span.appendChild(l); }
+        span.appendChild(document.createTextNode(it.value));
+      }
       box.appendChild(span);
     });
+  }
+
+  function updateWeather(weather) {
+    var w = weather || {};
+    var icon = $('weatherIcon');
+    if (w.icon && icon.getAttribute('src') !== w.icon) { icon.src = w.icon; }
+    icon.classList.toggle('on', !!w.icon);
+    $('weatherTemp').textContent = w.temperature || '';
+    $('weatherText').textContent = w.text || '';
+    var hasWeather = !!(w.icon || w.temperature || w.text);
+    $('weather').classList.toggle('on', hasWeather);
+    return hasWeather;
+  }
+
+  function updateOverlay() {
+    var s = state.settings;
+    var items = state.overlay || [];
+    updateItems(items);
+    var hasWeather = updateWeather(state.weather);
     var hasCaption = !!(state.image && state.image.caption);
-    $('overlay').classList.toggle('empty', s.clock === 'NONE' && items.length === 0 && !hasCaption);
+    $('overlay').classList.toggle('empty', s.clock === 'NONE' && items.length === 0 && !hasCaption && !hasWeather);
     tickClock();
   }
 

@@ -56,6 +56,9 @@ public class FrameConfiguration {
     public String clock = "NONE";
     // overlayItems is a list of item names; it is read by the handler, because 0.0.x stored it as text
     public String caption = "NONE";
+    public String weatherIconItem = "";
+    public String weatherTemperatureItem = "";
+    public String weatherTextItem = "";
 
     // Night mode
     public String nightMode = "OFF";
