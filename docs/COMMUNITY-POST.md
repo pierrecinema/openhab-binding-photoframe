@@ -8,7 +8,7 @@ Stay in your app. Pictures from a folder run as a full-screen slideshow right wh
 
 **Status:** Alpha test version, tested on openHAB 5.2.1. Support: please reply in this thread or open a [GitHub issue](https://github.com/pierrecinema/openhab-binding-photoframe/issues).
 
-## Features (v0.0.16)
+## Features (v0.0.17)
 
 * **Works in the openHAB apps** on Android and iOS and in any browser, no kiosk app needed
 * **One folder = one photo frame** — the binding creates the folder, you put pictures in, new pictures appear by themselves
@@ -49,7 +49,7 @@ No rules, no scripts and no extra software on the server are needed.
 
 Install it from the **Add-on Store** (Community Marketplace), or manually:
 
-Download **[org.openhab.binding.photoframe-0.0.16.jar](https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.16/org.openhab.binding.photoframe-0.0.16.jar)** and copy it to your openHAB `addons/` folder. Remove older versions of the JAR first.
+Download **[org.openhab.binding.photoframe-0.0.17.jar](https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.17/org.openhab.binding.photoframe-0.0.17.jar)** and copy it to your openHAB `addons/` folder. Remove older versions of the JAR first.
 
 openHAB loads the bundle automatically — no restart needed. Check **Settings → Bindings** to confirm it appears.
 
@@ -62,7 +62,7 @@ Add a **Photoframe** thing (see Configuration below). The binding creates the fo
 ### 3. Install the widget
 
 1. Open **Developer Tools → Widgets** in the MainUI
-2. Click **+** and paste the content of **[photoframe_card.yaml](https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.16/photoframe_card.yaml)**
+2. Click **+** and paste the content of **[photoframe_card.yaml](https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.17/photoframe_card.yaml)**
 3. Save
 
 ### 4. Create the full-screen page
@@ -249,6 +249,9 @@ Rule actions: `next()`, `previous()`, `pause()`, `play()`, `refresh()`, `newToke
 
 ## Changelog
 
+### Version 0.0.17
+- fixed: the control channel shows the real state after a restart
+
 ### Version 0.0.16
 - added: items below the weather block
 
@@ -272,7 +275,7 @@ Rule actions: `next()`, `previous()`, `pause()`, `play()`, `refresh()`, `newToke
 
 ## Resources
 
-https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.16/org.openhab.binding.photoframe-0.0.16.jar
+https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.17/org.openhab.binding.photoframe-0.0.17.jar
 
 Source code: https://github.com/pierrecinema/openhab-binding-photoframe
 

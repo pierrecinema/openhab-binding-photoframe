@@ -194,7 +194,7 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
                 } else if (command == NextPreviousType.PREVIOUS) {
                     previous();
                 } else if (command instanceof RefreshType) {
-                    updateState(CHANNEL_CONTROL, slideshow.isPaused() ? PlayPauseType.PAUSE : PlayPauseType.PLAY);
+                    publishControl();
                 }
             }
             case CHANNEL_REFRESH -> {
@@ -287,6 +287,8 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
                 restartAdvance();
             }
             publishCurrent();
+            // A new slideshow plays, while the item may still show the pause from before a restart
+            publishControl();
         } catch (SourceException e) {
             logger.debug("Photo frame {}: cannot read the pictures: {}", getThing().getUID(), e.getMessage());
             updateStatus(ThingStatus.OFFLINE, e.isConfigurationError() ? ThingStatusDetail.CONFIGURATION_ERROR
@@ -306,6 +308,10 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
         cancel(advanceJob);
         int interval = Math.max(5, config.interval);
         advanceJob = scheduler.scheduleWithFixedDelay(this::advance, interval, interval, TimeUnit.SECONDS);
+    }
+
+    private void publishControl() {
+        updateState(CHANNEL_CONTROL, slideshow.isPaused() ? PlayPauseType.PAUSE : PlayPauseType.PLAY);
     }
 
     private void publishCurrent() {

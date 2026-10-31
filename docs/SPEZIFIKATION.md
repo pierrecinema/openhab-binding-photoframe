@@ -288,6 +288,7 @@ Geschätzter Aufwand: etwa 4–5 Arbeitstage.
 | 0.0.14 | – | Einblendungen zeigen den Text aus den Zustandsoptionen eines Items statt des Rohwerts |
 | 0.0.15 | – | Wetterblock links unten (`weatherIconItem`, `weatherTemperatureItem`, `weatherTextItem`), Bild-Items in den Einblendungen |
 | 0.0.16 | – | Items unter dem Wetterblock (`weatherItems`) |
+| 0.0.17 | – | `control` zeigt nach einem Neustart den richtigen Zustand |
 | offen | M5 | Dropbox mit Login (Bridge erscheint erst hier) |
 | offen | M3 | Google Drive (Link + API-Key) |
 | **0.1.0** | M6 | erste Version für Beta-Tester |
