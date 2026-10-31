@@ -12,9 +12,11 @@ Alles läuft im Binding selbst: keine Skripte, kein ImageMagick, keine Cron-Jobs
 
 Benötigt **openHAB 5.0 oder neuer**. Auf openHAB 4.x startet das Binding nicht.
 
-| Diashow | Thing-Einstellungen | Dashboard-Widget |
+![Diashow mit Wetter, Uhr und Item-Werten](images/slideshow.png)
+
+| Hochformat mit unscharfem Hintergrund | Thing-Einstellungen | Dashboard-Widget |
 |---|---|---|
-| ![Diashow](images/slideshow.png) | ![Thing-Einstellungen](images/thing-configuration.png) | ![Dashboard-Widget](images/widget-photoframe-card.png) |
+| ![Hochformat](images/slideshow-portrait.png) | ![Thing-Einstellungen](images/thing-configuration.png) ![Einblendungen](images/thing-configuration-overlays.png) | ![Dashboard-Widget](images/widget-photoframe-card.png) |
 
 Die vollständige Referenz aller Einstellungen steht auf Englisch in der [README](../README.md).
 

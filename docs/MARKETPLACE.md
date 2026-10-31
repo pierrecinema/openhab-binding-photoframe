@@ -6,7 +6,7 @@ Text for the post in the Add-on Marketplace of the openHAB community.
 
 | Requirement | Status |
 |---|---|
-| Public repository, so that the JAR link works | Open: the repository is still private |
+| Public repository, so that the JAR link works | Done |
 | Direct link to the binary that ends with `.jar` and has no URL parameters | The release file below |
 | Category: Marketplace → Bindings | To choose when posting |
 | Tag for the add-on type | `binding` |
@@ -23,6 +23,8 @@ Check the posting template of the category before posting, as the community can 
 Title: `Photoframe Binding: photo frame inside the openHAB app, no kiosk app needed`
 
 ```markdown
+![Logo](https://raw.githubusercontent.com/pierrecinema/openhab-binding-photoframe/main/docs/images/logo.png)
+
 ![Slideshow](https://raw.githubusercontent.com/pierrecinema/openhab-binding-photoframe/main/docs/images/slideshow.png)
 
 ## Your photo frame inside the openHAB app: Android, iOS or browser, no kiosk app needed
@@ -42,7 +44,7 @@ Stay in your app. The slideshow runs full screen right where you use openHAB, in
 - A tap opens openHAB on top of the slideshow, or the openHAB app
 - Dashboard widget with live preview
 
-Tested on Android with Fully Kiosk Browser, in Android browsers, and on an iPad with iOS 15.
+Tested in the openHAB apps on Android and iOS, with Fully Kiosk Browser, in Android browsers, and on an iPad with iOS 15.
 
 ## Changelog
 

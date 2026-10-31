@@ -1,3 +1,5 @@
+<img src="docs/images/logo.png" alt="Photoframe Binding logo" width="128" align="right">
+
 # Photoframe Binding
 
 ## Your photo frame inside the openHAB app: Android, iOS or browser, no kiosk app needed
@@ -21,9 +23,11 @@ Everything runs inside the binding: no scripts, no ImageMagick, no cron jobs, no
 
 The binding requires **openHAB 5.0 or later**. It does not start on openHAB 4.x.
 
-| Slideshow (portrait picture with blurred background) | Thing configuration | Dashboard widget |
+![Slideshow with weather, clock and item values](docs/images/slideshow.png)
+
+| Portrait picture with blurred background | Thing configuration | Dashboard widget |
 |---|---|---|
-| ![Slideshow](docs/images/slideshow.png) | ![Thing configuration](docs/images/thing-configuration.png) | ![Dashboard widget](docs/images/widget-photoframe-card.png) |
+| ![Portrait picture](docs/images/slideshow-portrait.png) | ![Thing configuration](docs/images/thing-configuration.png) ![Overlay settings](docs/images/thing-configuration-overlays.png) | ![Dashboard widget](docs/images/widget-photoframe-card.png) |
 
 > **Test version:** Versions 0.x are test versions. Local folder and shared Dropbox links work and are tested; Nextcloud, Dropbox login and Google Drive follow.
 > Please report problems and ideas as [GitHub issue](https://github.com/pierrecinema/openhab-binding-photoframe/issues).
