@@ -38,6 +38,10 @@
   #weatherIcon.on { display: block; }
   #weatherTemp { font-size: 6vw; font-size: clamp(28px, 6vw, 80px); font-weight: 300; line-height: 1; white-space: nowrap; }
   #weatherText { font-size: 1.8vw; font-size: clamp(14px, 1.8vw, 24px); opacity: 0.9; margin-top: 6px; }
+  #weatherItems { font-size: 1.9vw; font-size: clamp(14px, 1.9vw, 26px); margin-top: 8px; }
+  #weatherItems span { margin-right: 1.2em; white-space: nowrap; }
+  #weatherItems small { opacity: 0.75; margin-right: 0.35em; }
+  #weatherItems img { height: 1.6em; vertical-align: middle; }
   #caption { font-size: 2.6vw; font-size: clamp(16px, 2.6vw, 34px); font-weight: 500; }
   #info { text-align: right; }
   #clock { font-size: 6vw; font-size: clamp(28px, 6vw, 80px); font-weight: 300; line-height: 1; }
@@ -66,6 +70,7 @@
 <div id="overlay" class="empty">
   <div id="left">
     <div id="weather"><img id="weatherIcon" alt=""><div><div id="weatherTemp"></div><div id="weatherText"></div></div></div>
+    <div id="weatherItems"></div>
     <div id="caption"></div>
   </div>
   <div id="info"><div id="clock"></div><div id="date"></div><div id="items"></div></div>
@@ -298,13 +303,13 @@
   }
 
   // --- overlays --------------------------------------------------------------------------------------------
-  var shownItems = null;
-  function updateItems(items) {
+  var shownItems = {};
+  function updateItems(boxId, items) {
     // Rebuilt only on a change, so pictures do not flicker with every state update
     var key = JSON.stringify(items);
-    if (key === shownItems) { return; }
-    shownItems = key;
-    var box = $('items');
+    if (key === shownItems[boxId]) { return; }
+    shownItems[boxId] = key;
+    var box = $(boxId);
     box.textContent = '';
     items.forEach(function (it) {
       var span = document.createElement('span');
@@ -336,8 +341,10 @@
   function updateOverlay() {
     var s = state.settings;
     var items = state.overlay || [];
-    updateItems(items);
-    var hasWeather = updateWeather(state.weather);
+    var weatherItems = state.weatherItems || [];
+    updateItems('items', items);
+    updateItems('weatherItems', weatherItems);
+    var hasWeather = updateWeather(state.weather) || weatherItems.length > 0;
     var hasCaption = !!(state.image && state.image.caption);
     $('overlay').classList.toggle('empty', s.clock === 'NONE' && items.length === 0 && !hasCaption && !hasWeather);
     tickClock();

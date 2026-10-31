@@ -36,6 +36,7 @@ public class FrameState {
     public Settings settings = new Settings();
     public List<Overlay> overlay = new ArrayList<>();
     public @Nullable Weather weather;
+    public List<Overlay> weatherItems = new ArrayList<>();
 
     public static class Picture {
         public String key;

@@ -120,6 +120,7 @@ Supported picture formats: JPEG, PNG, GIF and BMP. Subfolders are not read.
 | `weatherIconItem` | text | Image item with the weather icon, shown at the bottom left | (empty) | no | no |
 | `weatherTemperatureItem` | text | Item with the temperature, shown large at the bottom left | (empty) | no | no |
 | `weatherTextItem` | text | Item with the weather as text, shown below the temperature | (empty) | no | no |
+| `weatherItems` | text | Up to 4 items shown below the weather at the bottom left, e.g. the moon phase | (empty) | no | no |
 | `caption`      | text | `NONE` or `FILENAME`                                         | `NONE`  | no       | no       |
 
 ### Night Mode

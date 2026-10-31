@@ -188,6 +188,13 @@
 				<description>Item with the weather as text, shown below the temperature.</description>
 				<limitToOptions>false</limitToOptions>
 			</parameter>
+			<parameter name="weatherItems" type="text" multiple="true" groupName="overlay">
+				<context>item</context>
+				<label>Items Below the Weather</label>
+				<description>Up to 4 items shown below the weather at the bottom left, e.g. the moon phase.</description>
+				<limitToOptions>false</limitToOptions>
+				<multipleLimit>4</multipleLimit>
+			</parameter>
 			<parameter name="caption" type="text" groupName="overlay">
 				<label>Caption</label>
 				<options>

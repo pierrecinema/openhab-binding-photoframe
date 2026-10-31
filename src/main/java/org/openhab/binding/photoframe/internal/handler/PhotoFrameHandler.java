@@ -91,6 +91,7 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
     private static final int MAX_OVERLAY_ITEMS = 4;
     private static final int TOKEN_BYTES = 18;
     private static final String CONFIG_OVERLAY_ITEMS = "overlayItems";
+    private static final String CONFIG_WEATHER_ITEMS = "weatherItems";
 
     private final Logger logger = LoggerFactory.getLogger(PhotoFrameHandler.class);
     private final PhotoFrameServlet servlet;
@@ -382,7 +383,8 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
         String tapTarget = config.tapPage.isBlank() ? config.tapUrl : config.tapPage;
         state.settings.tapUrl = tapTarget.isBlank() ? null : tapTarget.trim();
         state.settings.returnSeconds = Math.max(0, config.returnSeconds);
-        state.overlay = overlayValues();
+        state.overlay = overlayValues(CONFIG_OVERLAY_ITEMS);
+        state.weatherItems = overlayValues(CONFIG_WEATHER_ITEMS);
         state.weather = weatherValues();
         return gson.toJson(state);
     }
@@ -394,9 +396,8 @@ public class PhotoFrameHandler extends BaseThingHandler implements FrameEndpoint
         return cache != null && image != null ? cache.get(image) : null;
     }
 
-    private List<FrameState.Overlay> overlayValues() {
-        return overlayItemNames(getThing().getConfiguration().get(CONFIG_OVERLAY_ITEMS)).stream()
-                .map(this::overlayValue).toList();
+    private List<FrameState.Overlay> overlayValues(String configKey) {
+        return overlayItemNames(getThing().getConfiguration().get(configKey)).stream().map(this::overlayValue).toList();
     }
 
     /**

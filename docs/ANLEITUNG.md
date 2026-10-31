@@ -116,6 +116,7 @@ Im Thing unter **Diashow**, **Einblendungen** und **Nachtmodus** stellst du alle
 | Uhr | Keine, Zeit, Zeit und Datum |
 | Einblend-Items | Bis zu 4 Items, zum Beispiel Temperaturen; Bild-Items erscheinen als Bild |
 | Wetter | Wetter-Icon, Wetter-Temperatur und Wetterlage als Block links unten, mit den Items deines Wetterdienstes |
+| Items unter dem Wetter | Bis zu 4 Items unter dem Wetterblock, zum Beispiel Mondphase und Sternzeichen |
 | Bildunterschrift | Keine oder Dateiname |
 | Nachtmodus | Aus, schwarz, gedimmte Bilder, schwarz mit gedimmter Uhr, mit Start- und Endzeit |
 

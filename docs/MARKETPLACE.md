@@ -46,6 +46,9 @@ Tested on Android with Fully Kiosk Browser, in Android browsers, and on an iPad 
 
 ## Changelog
 
+### Version 0.0.16
+- Items below the weather block
+
 ### Version 0.0.15
 - Weather block at the bottom left with icon, temperature and condition
 
@@ -73,7 +76,7 @@ Documentation: https://github.com/pierrecinema/openhab-binding-photoframe
 Widget: https://github.com/pierrecinema/openhab-binding-photoframe/blob/main/widgets/photoframe_card.yaml
 Source: https://github.com/pierrecinema/openhab-binding-photoframe
 
-https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.15/org.openhab.binding.photoframe-0.0.15.jar
+https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.16/org.openhab.binding.photoframe-0.0.16.jar
 ```
 
 Update the version in the changelog and in the last line for each new release.
