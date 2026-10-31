@@ -6,7 +6,7 @@ Stay in your app. Pictures from a folder run as a full-screen slideshow right wh
 
 **Coming soon:** Nextcloud, Dropbox login and Google Drive support.
 
-**Status:** Alpha test version, tested on openHAB 5.2.1. Support: please reply in this thread or open a [GitHub issue](https://github.com/pierrecinema/openhab-binding-photoframe/issues).
+**Status:** Beta, tested on openHAB 5.2.1. Testers are welcome. Support: please reply in this thread or open a [GitHub issue](https://github.com/pierrecinema/openhab-binding-photoframe/issues).
 
 ## Features (v0.0.17)
 

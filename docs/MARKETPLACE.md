@@ -13,8 +13,8 @@ Title: `Photoframe Binding: photo frame inside the openHAB app, no kiosk app nee
 | Direct link to the binary that ends with `.jar` and has no URL parameters | Last link group in the post |
 | Category: Marketplace → Bindings | To choose when posting |
 | Tag for the add-on type | `binding` |
-| Tag for the maturity | `alpha` for 0.0.x, `beta` for 0.x, `stable` from 1.0 |
-| Tag `published`, otherwise the entry is hidden in the add-on store | To set when the post is ready |
+| Tag for the maturity | `beta` for 0.x, `stable` from 1.0 |
+| Tag `published`, otherwise the entry is hidden in the add-on store | Done: https://community.openhab.org/t/photoframe-binding-5-1-3-0-6-0-0-0/170833 |
 | Runs on the stated openHAB versions | openHAB 5.0 and later, enforced by the import range in `pom.xml` |
 | `addon.xml`, thing XML, EPL-2.0 license, translations | In the repository |
 | Static code analysis | Runs in the release workflow |
