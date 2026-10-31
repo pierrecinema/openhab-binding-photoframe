@@ -12,26 +12,27 @@
  */
 package org.openhab.binding.photoframe.internal.config;
 
+import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Stream;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
+import org.openhab.core.OpenHAB;
 import org.openhab.core.config.core.ConfigOptionProvider;
 import org.openhab.core.config.core.ParameterOption;
-import org.openhab.core.model.sitemap.SitemapProvider;
 import org.openhab.core.ui.components.RootUIComponent;
 import org.openhab.core.ui.components.UIComponentRegistryFactory;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
 
 /**
  * The {@link PageOptionProvider} offers the Main UI pages and sitemaps as choices for the page opened by a tap, so no
@@ -51,21 +52,14 @@ public class PageOptionProvider implements ConfigOptionProvider {
     private static final String UI_SITEMAP_PREFIX = "uicomponents_";
     private static final String DEFAULT_SITEMAP = "_default";
 
+    private static final String SITEMAP_NAMESPACE = "system:sitemap";
+    private static final String SITEMAP_FILE_SUFFIX = ".sitemap";
+
     private final UIComponentRegistryFactory registryFactory;
-    private final List<SitemapProvider> sitemapProviders = new CopyOnWriteArrayList<>();
 
     @Activate
     public PageOptionProvider(@Reference UIComponentRegistryFactory registryFactory) {
         this.registryFactory = registryFactory;
-    }
-
-    @Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
-    public void addSitemapProvider(SitemapProvider provider) {
-        sitemapProviders.add(provider);
-    }
-
-    public void removeSitemapProvider(SitemapProvider provider) {
-        sitemapProviders.remove(provider);
     }
 
     @Override
@@ -75,10 +69,26 @@ public class PageOptionProvider implements ConfigOptionProvider {
             return null;
         }
         List<ParameterOption> options = pageOptions(registryFactory.getRegistry(PAGE_NAMESPACE).getAll());
-        List<String> sitemaps = new ArrayList<>();
-        sitemapProviders.forEach(provider -> sitemaps.addAll(provider.getSitemapNames()));
+        // The sitemap services of openHAB changed between 5.x versions, so the sitemaps are looked up by their storage
+        List<String> sitemaps = sitemapFiles(Path.of(OpenHAB.getConfigFolder(), "sitemaps"));
+        registryFactory.getRegistry(SITEMAP_NAMESPACE).getAll()
+                .forEach(sitemap -> sitemaps.add(UI_SITEMAP_PREFIX + sitemap.getUID()));
         options.addAll(sitemapOptions(sitemaps));
         return options;
+    }
+
+    static List<String> sitemapFiles(Path folder) {
+        List<String> names = new ArrayList<>();
+        if (!Files.isDirectory(folder)) {
+            return names;
+        }
+        try (Stream<Path> files = Files.list(folder)) {
+            files.map(file -> file.getFileName().toString()).filter(name -> name.endsWith(SITEMAP_FILE_SUFFIX))
+                    .forEach(name -> names.add(name.substring(0, name.length() - SITEMAP_FILE_SUFFIX.length())));
+        } catch (IOException e) {
+            // Only the choices in the settings are affected
+        }
+        return names;
     }
 
     static List<ParameterOption> pageOptions(Collection<RootUIComponent> pages) {

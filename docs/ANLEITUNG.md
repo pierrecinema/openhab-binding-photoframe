@@ -1,8 +1,13 @@
 # Photoframe Binding – Anleitung
 
-Das Binding macht aus openHAB einen digitalen Bilderrahmen.
-Bilder aus einem Ordner laufen als Vollbild-Diashow mit Übergängen, in jedem Browser und als Bildschirmschoner auf Tablets.
+## Dein Bilderrahmen in der openHAB-App: Android, iOS oder Browser, ganz ohne Kiosk-App
 
+Du bleibst in deiner App. Die Diashow läuft im Vollbild genau dort, wo du openHAB nutzt: in der Android-App, in der iOS-App und in jedem Browser.
+Ein Tipp bringt dich auf die openHAB-Seite, die du gewählt hast, und ohne Berührung kommt die Diashow nach der eingestellten Zeit von selbst zurück.
+
+**Bald verfügbar:** Nextcloud, Dropbox mit Login und Google Drive.
+
+Das Binding macht aus openHAB einen digitalen Bilderrahmen.
 Alles läuft im Binding selbst: keine Skripte, kein ImageMagick, keine Cron-Jobs, auf dem Server muss nichts zusätzlich installiert werden.
 
 Benötigt **openHAB 5.0 oder neuer**. Auf openHAB 4.x startet das Binding nicht.

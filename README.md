@@ -1,8 +1,13 @@
 # Photoframe Binding
 
-This binding turns openHAB into a digital photo frame.
-Pictures from a folder are shown as a full-screen slideshow with transitions, in any browser and as tablet screensaver.
+## Your photo frame inside the openHAB app: Android, iOS or browser, no kiosk app needed
 
+Stay in your app. The slideshow runs full screen right where you use openHAB, in the Android app, in the iOS app and in any browser.
+A tap brings you to the openHAB page you chose, and after a set time without touch the slideshow returns by itself.
+
+**Coming soon:** Nextcloud, Dropbox login and Google Drive support.
+
+This binding turns openHAB into a digital photo frame.
 Everything runs inside the binding: no scripts, no ImageMagick, no cron jobs, nothing extra to install on the server.
 
 - **One folder = one photo frame:** the binding creates the folder, you put pictures in
@@ -20,7 +25,7 @@ The binding requires **openHAB 5.0 or later**. It does not start on openHAB 4.x.
 |---|---|---|
 | ![Slideshow](docs/images/slideshow.png) | ![Thing configuration](docs/images/thing-configuration.png) | ![Dashboard widget](docs/images/widget-photoframe-card.png) |
 
-> **Test version:** Versions 0.x are test versions. Local folder and shared Dropbox links work and are tested; Dropbox login and Google Drive follow.
+> **Test version:** Versions 0.x are test versions. Local folder and shared Dropbox links work and are tested; Nextcloud, Dropbox login and Google Drive follow.
 > Please report problems and ideas as [GitHub issue](https://github.com/pierrecinema/openhab-binding-photoframe/issues).
 
 🇩🇪 Deutsche Anleitung: [docs/ANLEITUNG.md](docs/ANLEITUNG.md).
@@ -400,6 +405,7 @@ log:set DEBUG org.openhab.binding.photoframe
 
 ## Roadmap
 
+- Nextcloud
 - Dropbox with login
 - Google Drive
 - 1.0: first stable version in the openHAB Marketplace

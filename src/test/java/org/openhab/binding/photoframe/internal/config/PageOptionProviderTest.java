@@ -14,11 +14,15 @@ package org.openhab.binding.photoframe.internal.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.openhab.core.config.core.ParameterOption;
 import org.openhab.core.ui.components.RootUIComponent;
 
@@ -57,6 +61,15 @@ class PageOptionProviderTest {
                 options.stream().map(ParameterOption::getLabel).toList());
         assertEquals(List.of("/basicui/app?sitemap=garten", "/basicui/app?sitemap=uicomponents_haus"),
                 options.stream().map(ParameterOption::getValue).toList());
+    }
+
+    @Test
+    void sitemapFilesAreFoundByTheirEnding(@TempDir Path folder) throws IOException {
+        Files.writeString(folder.resolve("haus.sitemap"), "sitemap haus {}");
+        Files.writeString(folder.resolve("readme.txt"), "");
+
+        assertEquals(List.of("haus"), PageOptionProvider.sitemapFiles(folder));
+        assertEquals(List.of(), PageOptionProvider.sitemapFiles(folder.resolve("missing")));
     }
 
     private static RootUIComponent page(String uid, @Nullable String label) {

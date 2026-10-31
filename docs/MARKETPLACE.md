@@ -20,12 +20,16 @@ Check the posting template of the category before posting, as the community can 
 
 ## Post
 
-Title: `Photoframe Binding: digital photo frame and tablet screensaver`
+Title: `Photoframe Binding: photo frame inside the openHAB app, no kiosk app needed`
 
 ```markdown
 ![Slideshow](https://raw.githubusercontent.com/pierrecinema/openhab-binding-photoframe/main/docs/images/slideshow.png)
 
-Turns openHAB into a digital photo frame. Pictures from a folder run as a full-screen slideshow in any browser and as tablet screensaver. Nothing extra is needed on the server.
+## Your photo frame inside the openHAB app: Android, iOS or browser, no kiosk app needed
+
+Stay in your app. The slideshow runs full screen right where you use openHAB, in the Android app, in the iOS app and in any browser. A tap brings you to the openHAB page you chose, and after a set time without touch the slideshow returns by itself. Nothing extra is needed on the server.
+
+**Coming soon:** Nextcloud, Dropbox login and Google Drive support.
 
 **Requires openHAB 5.0 or later.**
 
@@ -42,7 +46,7 @@ Tested on Android with Fully Kiosk Browser, in Android browsers, and on an iPad 
 
 ## Changelog
 
-### Version 0.0.12
+### Version 0.0.13
 - Choose the Main UI page or sitemap opened by a tap from a list
 
 ### Version 0.0.11
@@ -63,7 +67,7 @@ Documentation: https://github.com/pierrecinema/openhab-binding-photoframe
 Widget: https://github.com/pierrecinema/openhab-binding-photoframe/blob/main/widgets/photoframe_card.yaml
 Source: https://github.com/pierrecinema/openhab-binding-photoframe
 
-https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.12/org.openhab.binding.photoframe-0.0.12.jar
+https://github.com/pierrecinema/openhab-binding-photoframe/releases/download/v0.0.13/org.openhab.binding.photoframe-0.0.13.jar
 ```
 
 Update the version in the changelog and in the last line for each new release.
