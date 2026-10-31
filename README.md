@@ -29,7 +29,7 @@ The binding requires **openHAB 5.0 or later**. It does not start on openHAB 4.x.
 
 | Portrait picture with blurred background | Thing configuration | Dashboard widget |
 |---|---|---|
-| ![Portrait picture](docs/images/slideshow-portrait.png) | ![Thing configuration](docs/images/thing-configuration.png) ![Overlay settings](docs/images/thing-configuration-overlays.png) | ![Dashboard widget](docs/images/widget-photoframe-card.png) |
+| ![Portrait picture](docs/images/slideshow-portrait.png) | ![Thing configuration](docs/images/thing-configuration.png) ![Overlay settings](docs/images/thing-configuration-overlays.png)|
 
 > **Test version:** Versions 0.x are test versions. Local folder and shared Dropbox links work and are tested; Nextcloud, Dropbox login and Google Drive follow.
 > Please report problems and ideas as [GitHub issue](https://github.com/pierrecinema/openhab-binding-photoframe/issues).
