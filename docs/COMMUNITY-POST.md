@@ -8,8 +8,6 @@ Stay in your app. Pictures from a folder run as a full-screen slideshow right wh
 
 **Status:** Alpha test version, tested on openHAB 5.2.1. Support: please reply in this thread or open a [GitHub issue](https://github.com/pierrecinema/openhab-binding-photoframe/issues).
 
-https://youtu.be/VIDEO-LINK
-
 ## Features (v0.0.16)
 
 * **Works in the openHAB apps** on Android and iOS and in any browser, no kiosk app needed
